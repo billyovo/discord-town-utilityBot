@@ -188,9 +188,9 @@ run(message) {
         let row = temp[0];
         let column = temp[1];
         let connected = 1;
-        while((row-1>=0)&&(column+1<=verticalMax-1)){
+        while((row-1>=0)&&(column-1>=0)){
             
-            if(board[column][row]===board[column+1][row-1]&&board[column][row]!=black_circle){
+            if(board[column][row]===board[column-1][row-1]&&board[column][row]!=black_circle){
                 connected++;
             }
             else{
@@ -199,7 +199,7 @@ run(message) {
             if(connected >= 4){
                 return true;
             }
-            row++;
+            row--;
             column--;
         }
         return false;

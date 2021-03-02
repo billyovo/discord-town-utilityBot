@@ -11,19 +11,7 @@ module.exports = class connect extends Command{
 	}
 
 run(message) {
-    function createPreGameMessage(game,channel){
-        let embed = new Discord.MessageEmbed()
-        .setTitle(game)
-        .setDescription("<@"+message.author.id+"> wants to play with you! Click 🎲 below to join")
-        .setColor("#50C878")
-
-        channel.send(embed)
-        .then(message=>{
-            return message;
-        })
-    }
-
-    function createPreGameReactions(message){
+    function createPreGameMessage(message){
         return new Promise((resolve, reject) => {
         let joinedUser = "";
         const filter = (reaction,user) => reaction.emoji.name === '🎲' && !user.bot; 
@@ -246,9 +234,9 @@ run(message) {
     .setDescription("<@"+message.author.id+"> wants to play with you! Click 🎲 below to join")
     .setColor("#50C878")
 
-	createPreGameMessage("Connect",message.channel) //pre game
+	message.channel.send(embed) //pre game
     .then(msg=>{
-        createPreGameReactions(msg)
+        createPreGameMessage(msg)
         .then(async user=>{
             players.push(user);
             msg.reactions.removeAll();

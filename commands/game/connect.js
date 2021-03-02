@@ -28,7 +28,6 @@ run(message) {
             joinedUser===""?
             reject():
             resolve(joinedUser);
-
         });
     })
 }
@@ -245,6 +244,7 @@ run(message) {
             msg.reactions.removeAll();
             updateGameMessage(parseBoardToString(board),turn,players,msg);
             addReactions(msg);
+            
             let gameContinue = true;
             while(gameContinue){
                 let input = await receiveGameInput(msg,players,turn)
@@ -272,11 +272,11 @@ run(message) {
             }
             
         })
-    //    .catch(()=>{
-    //        embed.setDescription("Game gone~");
-    //        msg.edit(embed);
-    //        msg.reactions.removeAll();
-    //    })
+        .catch(()=>{
+            embed.setDescription("Game gone~");
+            msg.edit(embed);
+            msg.reactions.removeAll();
+        })
     
 	})
 

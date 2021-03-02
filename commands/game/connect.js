@@ -110,7 +110,7 @@ run(message) {
         let pointer = 0;
         let connected = 1;
         while(pointer+1<verticalMax){
-            if(board[pointer][input]===board[pointer+1][input]&&board[pointer][input]!=black_circle){
+            if(board[pointer][input]===board[pointer+1][input]&&board[pointer][input]!=empty_circle){
                 connected++;
             }
             else{
@@ -129,7 +129,7 @@ run(message) {
         let column = top[input];
         let connected = 1;
         while(pointer+1<horizontalMax){
-            if(board[column][pointer]===board[column][pointer+1]&&board[column][pointer]!==black_circle){
+            if(board[column][pointer]===board[column][pointer+1]&&board[column][pointer]!==empty_circle){
                 connected++;
             }
             else{
@@ -160,7 +160,7 @@ run(message) {
         let connected = 1;
         while((row+1<=horizontalMax-1)&&(column-1>=0)){
             
-            if(board[column][row]===board[column-1][row+1]&&board[column][row]!=black_circle){
+            if(board[column][row]===board[column-1][row+1]&&board[column][row]!=empty_circle){
                 connected++;
             }
             else{
@@ -192,7 +192,7 @@ run(message) {
         let connected = 1;
         while((row-1>=0)&&(column-1>=0)){
             
-            if(board[column][row]===board[column-1][row-1]&&board[column][row]!=black_circle){
+            if(board[column][row]===board[column-1][row-1]&&board[column][row]!=empty_circle){
                 connected++;
             }
             else{
@@ -211,7 +211,7 @@ run(message) {
         return top[input]>=0;
     }
 
-    const black_circle = "⚪";
+    const empty_circle = "⚪";
     const playersCircle = ["🔵","🔴"]; //blue red
     const numberEmotes = ["1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣"];
     const horizontalMax = 7;
@@ -224,7 +224,7 @@ run(message) {
 
     let top = [5,5,5,5,5,5,5]
 
-    let board = Array.from(Array(verticalMax), () => Array(horizontalMax).fill(black_circle));
+    let board = Array.from(Array(verticalMax), () => Array(horizontalMax).fill(empty_circle));
     let players = [message.author];
     let turn = 1;
 

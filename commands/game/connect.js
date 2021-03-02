@@ -1,6 +1,5 @@
 const { Command } = require('discord.js-commando');
 const Discord = require('discord.js');
-const { NONAME } = require('dns');
 module.exports = class connect extends Command{
 	constructor(client) {
 		super(client, {
@@ -33,7 +32,6 @@ run(message) {
 }
 
     async function updateGameMessage(boardString,turn,players,message){
-        const color = ["#00FF00","#0000FF"];
         let embed = new Discord.MessageEmbed()
         .setTitle(players[turn%2].username+" 的回合")
         .setColor("#50C878")
@@ -233,7 +231,7 @@ run(message) {
     message.delete();
     let embed = new Discord.MessageEmbed()
     .setTitle("Connect")
-    .setDescription("<@"+message.author.id+"> wants to play with you!")
+    .setDescription("<@"+message.author.id+"> wants to play with you! Click 🎲 below to join")
     .setColor("#50C878")
 
 	message.channel.send(embed) //pre game

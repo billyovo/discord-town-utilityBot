@@ -176,9 +176,9 @@ run(message) {
     function getBottomRight(input){
         let row = input;
         let column = top[input]+1;
-        while(row<horizontalMax-1&&column>0){
+        while(row<horizontalMax-1&&column<verticalMax-1){
             row++;
-            column--;
+            column++;
         }
         return [row,column];
     }

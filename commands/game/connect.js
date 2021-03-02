@@ -126,7 +126,7 @@ run(message) {
 
     function checkWinHorizontal(board,input){
         let pointer = 0;
-        let column = top[input]+1;
+        let column = top[input];
         let connected = 1;
         while(pointer+1<horizontalMax){
             if(board[column][pointer]===board[column][pointer+1]&&board[column][pointer]!==black_circle){
@@ -145,7 +145,7 @@ run(message) {
 
     function getBottomLeft(input){
         let row = input;
-        let column = top[input]+1;
+        let column = top[input];
         while(row>0&&column<verticalMax-1){
             row--;
             column++;
@@ -177,7 +177,7 @@ run(message) {
 
     function getBottomRight(input){
         let row = input;
-        let column = top[input]+1;
+        let column = top[input];
         while(row<horizontalMax-1&&column<verticalMax-1){
             row++;
             column++;
@@ -252,7 +252,6 @@ run(message) {
                                   })
                 if(gameContinue){
                     board[top[input]][input] = playersCircle[turn%2];
-                    top[input]--;
                     turn++;
                     await updateGameMessage(parseBoardToString(board),turn,players,msg)
                     .then(()=>{
@@ -265,7 +264,7 @@ run(message) {
                             gameEnd(parseBoardToString(board),turn,players,msg,STATUS.DRAW);
                         }
                     })
-                    
+                    top[input]--;
                 }
             }
             

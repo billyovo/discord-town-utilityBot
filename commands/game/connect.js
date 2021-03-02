@@ -156,9 +156,10 @@ run(message) {
         let row = temp[0];
         let column = temp[1];
         let connected = 1;
-        
+        console.log((column) + " "+(row));
+
         while((row+1<=horizontalMax-1)&&(column-1>=0)){
-            console.log((column+1) + " "+(row-1)+" "+board[column][row]+" "+board[column+1][row-1])
+            console.log((column+1) + " "+(row-1));
             
             if(board[column][row]===board[column-1][row+1]&&board[column][row]!=black_circle){
                 connected++;

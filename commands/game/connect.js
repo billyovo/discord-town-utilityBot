@@ -48,6 +48,7 @@ run(message) {
         .setTitle("⏰ "+players[turn%2].username+" 因為沒有回應所以輸了!")
         .setColor("#50C878")
         .setDescription(boardString)
+        message.reactions.removeAll();
         message.edit(embed)
     }
 
@@ -56,6 +57,7 @@ run(message) {
         .setTitle("🎉 " +players[turn%2].username+" 嬴了!")
         .setColor("#50C878")
         .setDescription(boardString)
+        message.reactions.removeAll();
         message.edit(embed)
     }
 
@@ -96,12 +98,9 @@ run(message) {
 } 
 
     function checkWin(board,input){
-        let column = top[input];
-        let row = input;
-
         return checkWinHorizontal(board,input)||
                 checkWinVertical(board,input)||
-                checkWinBottomLeft(board,input)
+                checkWinBottomLeft(board,input)||
                 checkWinBottomRight(board,input);
     }
 
@@ -125,10 +124,10 @@ run(message) {
 
     function checkWinHorizontal(board,input){
         let pointer = 0;
-        let row = top[input]+1;
+        let column = top[input]+1;
         let connected = 1;
         while(pointer+1<horizontalMax){
-            if(board[row][pointer]===board[row][pointer+1]&&board[row][pointer]!==black_circle){
+            if(board[column][pointer]===board[column][pointer+1]&&board[column][pointer]!==black_circle){
                 connected++;
             }
             else{
@@ -141,6 +140,7 @@ run(message) {
         }
         return false;
     }
+
     function getBottomLeft(input){
         let row = input;
         let column = top[input]+1;
@@ -150,6 +150,7 @@ run(message) {
         }
         return [row,column];
     }
+
     function checkWinBottomLeft(board,input){
         let temp = getBottomLeft(input);
         let row = temp[0];
@@ -159,7 +160,7 @@ run(message) {
         while((row+1<=horizontalMax-1)&&(column-1>=0)){
             console.log((row+1) + " "+(column-1)+" "+board[row][column]+" "+board[row+1][column-1])
             
-            if(board[row][column]===board[row+1][column-1]&&board[row][column]!=black_circle){
+            if(board[column][row]===board[column-1][row+1]&&board[column][row]!=black_circle){
                 connected++;
             }
             else{
@@ -172,6 +173,16 @@ run(message) {
             column--;
         }
         return false;
+    }
+
+    function getBottomRight(input){
+        let row = input;
+        let column = top[input]+1;
+        while(row<horizontalMax-1&&column>0){
+            row++;
+            column--;
+        }
+        return [row,column];
     }
 
     function checkWinBottomRight(board,input){

@@ -48,7 +48,7 @@ run(message) {
         message.reactions.removeAll();
         switch(reason){
             case STATUS.WIN:{
-                embed.setTitle("🎉 " +players[turn%2].username+" 嬴了!");
+                embed.setTitle("🎉 " +players[(turn+1)%2].username+" 嬴了!");
                 break;
             }
             case STATUS.TIMEOUT:{

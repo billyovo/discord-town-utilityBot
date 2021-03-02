@@ -43,21 +43,26 @@ run(message) {
         message.edit(embed)
     }
 
-    function gameTimeOut(boardString,turn,players,message){
+    function gameEnd(board,turn,players,message,reason){
         let embed = new Discord.MessageEmbed()
-        .setTitle("⏰ "+players[turn%2].username+" 因為沒有回應所以輸了!")
         .setColor("#50C878")
-        .setDescription(boardString)
-        message.reactions.removeAll();
-        message.edit(embed)
-    }
+        .setDescription(board)
 
-    function gameWin(boardString,turn,players,message){
-        let embed = new Discord.MessageEmbed()
-        .setTitle("🎉 " +players[turn%2].username+" 嬴了!")
-        .setColor("#50C878")
-        .setDescription(boardString)
         message.reactions.removeAll();
+        switch(reason){
+            case STATUS.WIN:{
+                embed.setTitle("🎉 " +players[turn%2].username+" 嬴了!");
+                break;
+            }
+            case STATUS.TIMEOUT:{
+                embed.setTitle("⏰ "+players[turn%2].username+" 因為沒有回應所以輸了!");
+                break;
+            }
+            case STATUS.DRAW:{
+                embed.setTitle("🎉 平手!");
+                break;
+            }
+        }
         message.edit(embed)
     }
 
@@ -98,7 +103,7 @@ run(message) {
 } 
 
     function checkWin(board,input){
-        return checkWinHorizontal(board,input)||
+         return checkWinHorizontal(board,input)||
                 checkWinVertical(board,input)||
                 checkWinBottomLeft(board,input)||
                 checkWinBottomRight(board,input);
@@ -214,12 +219,17 @@ run(message) {
     const numberEmotes = ["1️⃣","2️⃣","3️⃣","4️⃣","5️⃣","6️⃣","7️⃣"];
     const horizontalMax = 7;
     const verticalMax = 6;
+    const STATUS = {
+        DRAW: "draw",
+        TIMEOUT: "timeout",
+        WIN: "win"
+    }
 
     let top = [5,5,5,5,5,5,5]
 
     let board = Array.from(Array(verticalMax), () => Array(horizontalMax).fill(black_circle));
     let players = [message.author];
-    let turn = Math.floor(Math.random() * Math.floor(2));
+    let turn = 1;
 
     message.delete();
     let embed = new Discord.MessageEmbed()
@@ -237,10 +247,9 @@ run(message) {
             addReactions(msg);
             let gameContinue = true;
             while(gameContinue){
-                gameContinue = true;
                 let input = await receiveGameInput(msg,players,turn)
                                   .catch(()=>{
-                                      gameTimeOut(parseBoardToString(board),turn,players,msg);
+                                      gameEnd(parseBoardToString(board),turn,players,msg,STATUS.TIMEOUT);
                                       gameContinue = false;
                                   })
                 if(gameContinue){
@@ -249,9 +258,13 @@ run(message) {
                     turn++;
                     await updateGameMessage(parseBoardToString(board),turn,players,msg)
                     .then(()=>{
-                        if(checkWinBottomRight(board,input)){
+                        if(checkWin(board,input)){
                             gameContinue = false;
-                            gameWin(parseBoardToString(board),turn,players,msg);
+                            gameEnd(parseBoardToString(board),turn,players,msg,STATUS.WIN);
+                        }
+                        if(turn>=42){
+                            gameContinue = false;
+                            gameEnd(parseBoardToString(board),turn,players,msg,STATUS.DRAW);
                         }
                     })
                     

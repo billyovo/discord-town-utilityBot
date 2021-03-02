@@ -12,7 +12,7 @@ module.exports = class connect extends Command{
 	}
 
 run(message) {
-    function createGameMessage(message){
+    function createPreGameMessage(message){
         return new Promise((resolve, reject) => {
         let joinedUser = "";
         const filter = (reaction,user) => reaction.emoji.name === '🎲' && !user.bot; 
@@ -238,7 +238,7 @@ run(message) {
 
 	message.channel.send(embed) //pre game
     .then(msg=>{
-        createGameMessage(msg)
+        createPreGameMessage(msg)
         .then(async user=>{
             players.push(user);
             msg.reactions.removeAll();
@@ -262,7 +262,7 @@ run(message) {
                             gameContinue = false;
                             gameEnd(parseBoardToString(board),turn,players,msg,STATUS.WIN);
                         }
-                        if(turn>=42){
+                        if(turn-1>=42){
                             gameContinue = false;
                             gameEnd(parseBoardToString(board),turn,players,msg,STATUS.DRAW);
                         }

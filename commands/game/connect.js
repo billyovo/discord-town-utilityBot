@@ -247,6 +247,7 @@ run(message) {
             addReactions(msg);
             
             let gameContinue = true;
+            
             while(gameContinue){
                 let input = await receiveGameInput(msg,players,turn)
                                   .catch(()=>{
@@ -256,17 +257,21 @@ run(message) {
                 if(gameContinue){
                     board[top[input]][input] = playersCircle[turn%2];
                     turn++;
-                    await updateGameMessage(parseBoardToString(board),turn,players,msg)
-                    .then(()=>{
-                        if(checkWin(board,input)){
-                            gameContinue = false;
-                            gameEnd(parseBoardToString(board),turn,players,msg,STATUS.WIN);
-                        }
+
+                    if(checkWin(board,input)){
+                        gameContinue = false;
+                        gameEnd(parseBoardToString(board),turn,players,msg,STATUS.WIN);
+                    }
+                    else{
                         if(turn-1>=42){
                             gameContinue = false;
                             gameEnd(parseBoardToString(board),turn,players,msg,STATUS.DRAW);
                         }
-                    })
+                        else{
+                            updateGameMessage(parseBoardToString(board),turn,players,msg);
+                        }
+                    }
+                    
                     top[input]--;
                 }
             }

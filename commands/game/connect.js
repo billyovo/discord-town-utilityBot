@@ -240,6 +240,9 @@ run(message) {
         .then(async user=>{
             players.push(user);
             msg.reactions.removeAll();
+            if(Math.floor(Math.random() * 2)==1){
+                players.reverse();         //random start order
+            }
             updateGameMessage(parseBoardToString(board),turn,players,msg);
             addReactions(msg);
             

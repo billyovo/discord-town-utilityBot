@@ -156,10 +156,7 @@ run(message) {
         let row = temp[0];
         let column = temp[1];
         let connected = 1;
-        console.log((column) + " "+(row));
-
         while((row+1<=horizontalMax-1)&&(column-1>=0)){
-            console.log((column+1) + " "+(row-1));
             
             if(board[column][row]===board[column-1][row+1]&&board[column][row]!=black_circle){
                 connected++;
@@ -187,7 +184,25 @@ run(message) {
     }
 
     function checkWinBottomRight(board,input){
-
+        let temp = getBottomRight(input);
+        let row = temp[0];
+        let column = temp[1];
+        let connected = 1;
+        while((row-1>=0)&&(column+1<=verticalMax-1)){
+            
+            if(board[column][row]===board[column+1][row-1]&&board[column][row]!=black_circle){
+                connected++;
+            }
+            else{
+                connected = 1;
+            }
+            if(connected >= 4){
+                return true;
+            }
+            row++;
+            column--;
+        }
+        return false;
     }
 
     function isValid(input){
@@ -234,7 +249,7 @@ run(message) {
                     turn++;
                     await updateGameMessage(parseBoardToString(board),turn,players,msg)
                     .then(()=>{
-                        if(checkWinBottomLeft(board,input)){
+                        if(checkWinBottomRight(board,input)){
                             gameContinue = false;
                             gameWin(parseBoardToString(board),turn,players,msg);
                         }

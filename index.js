@@ -5,11 +5,10 @@ require('dotenv').config();
 const fetch = require("node-fetch");
 var CronJob = require('cron').CronJob;
 
-var keepAwake = new CronJob('*/5 * * * *', function() {
+var keepAwake = new CronJob('*/25 * * * *', function() {
 	fetch("https://discord-bosslist-bot.herokuapp.com/",{method: "HEAD"})
 	.then(response => {
-		console.log(response.status);
-		console.log("Siumui is here");
+		console.log("bossBot's status: "+response.status);
 	});
   }, null, true, 'Asia/Taipei');
 

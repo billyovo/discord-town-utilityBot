@@ -6,8 +6,11 @@ const fetch = require("node-fetch");
 var CronJob = require('cron').CronJob;
 
 var keepAwake = new CronJob('*/5 * * * *', function() {
-	const response = async () =>{await fetch("https://discord-bosslist-bot.herokuapp.com/",{method: "HEAD"})};
-	console.log(response.status);
+	fetch("https://discord-bosslist-bot.herokuapp.com/",{method: "HEAD"})
+	.then(response => {
+		console.log(response.status);
+		console.log("Siumui is here");
+	});
   }, null, true, 'Asia/Taipei');
 
 keepAwake.start();

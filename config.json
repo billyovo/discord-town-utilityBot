@@ -1,4 +1,5 @@
 {
     "prefix" : "=",
-    "owner" : "395454424954437632"
+    "owner" : "395454424954437632",
+    "keepAwakeEndpoint" : "https://discord-bosslist-bot.herokuapp.com/"
 }

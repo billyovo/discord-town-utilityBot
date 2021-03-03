@@ -2,6 +2,14 @@ const { CommandoClient } = require('discord.js-commando');
 const path = require('path');
 const config = require('./config.json');
 require('dotenv').config();
+const fetch = require("node-fetch");
+var CronJob = require('cron').CronJob;
+
+var keepAwake = new CronJob('*/5 * * * *', function() {
+	fetch("https://discord-bosslist-bot.herokuapp.com/",{method: "HEAD"})
+  }, null, true, 'Asia/Taipei');
+
+keepAwake.start();
 
 const client = new CommandoClient({
 	commandPrefix: config.prefix,

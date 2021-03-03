@@ -36,7 +36,7 @@ client.registry
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.once('ready', () => {
-    console.log('Logged in as '+client.username);
+    console.log('Logged in as '+client.user.username);
 });
 
 client.login(process.env.TOKEN);

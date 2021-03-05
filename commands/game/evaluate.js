@@ -1,3 +1,5 @@
+'use strict';
+
 const empty_circle = "⚪";
 const playersCircle = ["🔵","🔴"]; //blue red
 const horizontalMax = 7;
@@ -8,40 +10,46 @@ const diagonallyEvaluateStart = 3;
 const bottomLeftEvaluateEnd = 4;
 const bottomRightEvaluateStart = 5;
 const bottomRightEvaluateEnd = 3;
-const connectWeight = [0,1,5,10,Infinity];  //weight for 0,1,2,3,4 connected disc
+const connectWeight = [0,1,2,5,Infinity];  //weight for 0,1,2,3,4 connected disc
 
-let top = [5,5,5,5,5,5,5];
+let game = {
+    board : [
+        ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
+        ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
+        ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
+        ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
+        ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
+        ["⚪","⚪","⚪","🔴","⚪","⚪","⚪"]
+    ],
+    top: [5,5,5,4,5,5,5]
+}
 
 //score minimax evaluation formula:
 //scoreBase * number of possible combinations of 4 * number of connected piece * weight
-let board = [
-    ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
-    ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
-    ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
-    ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
-    ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
-    ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"]
-];
 
-function horizontalEvaluate(board,disc){
+
+function horizontalEvaluate(game,disc){
     let row = 0;
     let column = verticalMax-1;
     let possibleConnected = 0;
     let connected = 0;
+    let connectedMax = 0;
     let score = 0;
 
     while(column>=0){  //loop through column
         while(row<=horizontalMax-1){ //loop through row
-            if(board[column][row]===empty_circle){  //if it's an empty space, increment possible connected
-                possibleConnected++;          
+            if(game.board[column][row]===empty_circle){  //if it's an empty space, increment possible connected
+                possibleConnected++;     
+                connected = 0;     
             }
             else{
-                if(board[column][row]===disc){   //if it's a target player disc, increment real connected and possible connected
+                if(game.board[column][row]===disc){   //if it's a target player disc, increment real connected and possible connected
                     possibleConnected++;
                     connected++;
+                    connectedMax = Math.max(connectedMax,connected);
                 }
                 else{ //if the connected sequence is stopped by another player disc, calculate the score and reset connected
-                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];
+                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                     connected = 0;
                     possibleConnected = 0;
                 }
@@ -49,33 +57,39 @@ function horizontalEvaluate(board,disc){
             row++;
         }
         column--;
-        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];  //failsafe for out of boundary checks
+        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];  //failsafe for out of boundary checks
         connected = 0;  //reset for next column iteration
         possibleConnected = 0;
         row = 0;
     }
+    if(!isFinite(score)){
+        return Infinity;
+    }
     return score;
 }
 
-function verticalEvaluate(board,disc){
+function verticalEvaluate(game,disc){
     let row = 0;
     let column = verticalMax-1;
     let possibleConnected = 0;
     let connected = 0;
+    let connectedMax = 0;
     let score = 0;
 
     while(row<=horizontalMax-1){      //same structure as horizontalEvaluate
         while(column>=0){ 
-            if(board[column][row]===empty_circle){  
-                possibleConnected++;          
+            if(game.board[column][row]===empty_circle){  
+                possibleConnected++;      
+                connected = 0;      
             }
             else{
-                if(board[column][row]===disc){   
+                if(game.board[column][row]===disc){   
                     possibleConnected++;
                     connected++;
+                    connectedMax = Math.max(connectedMax,connected);
                 }
                 else{ 
-                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];
+                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                     connected = 0;
                     possibleConnected = 0;
                 }
@@ -83,19 +97,23 @@ function verticalEvaluate(board,disc){
             column--;
         }
         row++;
-        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];  
+        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];  
         connected = 0;  
         possibleConnected = 0;
         column = verticalMax-1;
     }
+    if(!isFinite(score)){
+        return Infinity;
+    }
     return score;
 }
 
-function bottomLeftEvaluate(board,disc){
+function bottomLeftEvaluate(game,disc){
   
     let possibleConnected = 0;
     let connected = 0;
     let score = 0;
+    let connectedMax = 0;
 
     /*
                                     O O O O O O O
@@ -110,16 +128,18 @@ Loop until the end of column        O O O O O O O
         let column_loop = column;
         let row = 0;
         while(column_loop>=0){   //only column will overflow in this loop, use it as exit condition
-            if(board[column_loop][row]===empty_circle){  
-                possibleConnected++;          
+            if(game.board[column_loop][row]===empty_circle){  
+                possibleConnected++;      
+                connected = 0;      
             }
             else{
-                if(board[column_loop][row]===disc){   
+                if(game.board[column_loop][row]===disc){   
                     possibleConnected++;
                     connected++;
+                    connectedMax = Math.max(connectedMax,connected);
                 }
                 else{ 
-                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];
+                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                     connected = 0;
                     possibleConnected = 0;
                 }
@@ -127,7 +147,7 @@ Loop until the end of column        O O O O O O O
             column_loop--;
             row++;
         }
-        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];
+        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
         connected = 0;  
         possibleConnected = 0;
     }
@@ -147,16 +167,18 @@ Until the 4th column inclusive where 4 connect is no longer possible
     let row_loop = row;
     let column = verticalMax-1;
     while(row_loop<=horizontalMax-1){   
-        if(board[column][row_loop]===empty_circle){  
-            possibleConnected++;          
+        if(game.board[column][row_loop]===empty_circle){  
+            possibleConnected++;     
+            connected = 0;       
         }
         else{
-            if(board[column][row_loop]===disc){   
+            if(game.board[column][row_loop]===disc){   
                 possibleConnected++;
                 connected++;
+                connectedMax = Math.max(connectedMax,connected);
             }
             else{ 
-                score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];
+                score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                 connected = 0;
                 possibleConnected = 0;
             }
@@ -164,17 +186,21 @@ Until the 4th column inclusive where 4 connect is no longer possible
         row_loop++;
         column--;
     }
-        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];
+        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
         connected = 0;  
         possibleConnected = 0;
+    }
+    if(!isFinite(score)){
+        return Infinity;
     }
     return score;
 }
 
-function bottomRightEvaluate(board,disc){
+function bottomRightEvaluate(game,disc){
   
     let possibleConnected = 0;
     let connected = 0;
+    let connectedMax = 0;
     let score = 0;
 
     /*
@@ -190,16 +216,18 @@ function bottomRightEvaluate(board,disc){
         let column_loop = column;
         let row = 6;
         while(column_loop>=0){   
-            if(board[column_loop][row]===empty_circle){  
-                possibleConnected++;          
+            if(game.board[column_loop][row]===empty_circle){  
+                possibleConnected++;     
+                connected = 0;       
             }
             else{
-                if(board[column_loop][row]===disc){   
+                if(game.board[column_loop][row]===disc){   
                     possibleConnected++;
                     connected++;
+                    connectedMax = Math.max(connectedMax,connected);
                 }
                 else{ 
-                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];
+                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                     connected = 0;
                     possibleConnected = 0;
                 }
@@ -207,7 +235,7 @@ function bottomRightEvaluate(board,disc){
             column_loop--;
             row--;
         }
-        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];
+        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
         connected = 0;  
         possibleConnected = 0;
     }
@@ -226,16 +254,18 @@ function bottomRightEvaluate(board,disc){
     let row_loop = row;
     let column = verticalMax-1;
     while(row_loop>=0){   
-        if(board[column][row_loop]===empty_circle){  
-            possibleConnected++;          
+        if(game.board[column][row_loop]===empty_circle){  
+            possibleConnected++;        
+            connected = 0;    
         }
         else{
-            if(board[column][row_loop]===disc){   
+            if(game.board[column][row_loop]===disc){   
                 possibleConnected++;
                 connected++;
+                connectedMax = Math.max(connectedMax,connected);
             }
             else{ 
-                score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];
+                score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                 connected = 0;
                 possibleConnected = 0;
             }
@@ -243,29 +273,32 @@ function bottomRightEvaluate(board,disc){
         row_loop--;
         column--;
     }
-        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connected * connectWeight[connected];
+        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
         connected = 0;  
         possibleConnected = 0;
+    }
+    if(!isFinite(score)){
+        return Infinity;
     }
     return score;
 }
 
-function evaluateBoard(board){
-    let AIScore =     horizontalEvaluate(board,playersCircle[0]) +
-                      verticalEvaluate(board,playersCircle[0])   +
-                      bottomLeftEvaluate(board,playersCircle[0]) +
-                      bottomRightEvaluate(board,playersCircle[0]);
+function evaluateBoard(game){
+    let AIScore =     horizontalEvaluate(game,playersCircle[0]) +
+                      verticalEvaluate(game,playersCircle[0])   +
+                      bottomLeftEvaluate(game,playersCircle[0]) +
+                      bottomRightEvaluate(game,playersCircle[0]);
 
-    let playerScore = horizontalEvaluate(board,playersCircle[1]) +
-                      verticalEvaluate(board,playersCircle[1])   +
-                      bottomLeftEvaluate(board,playersCircle[1]) +
-                      bottomRightEvaluate(board,playersCircle[1]);
+    let playerScore = horizontalEvaluate(game,playersCircle[1]) +
+                      verticalEvaluate(game,playersCircle[1])   +
+                      bottomLeftEvaluate(game,playersCircle[1]) +
+                      bottomRightEvaluate(game,playersCircle[1]);
 
     return (AIScore - playerScore);
 }
 
-function isFull(board){
-    board.forEach(column=>{
+function isFull(game){
+    game.board.forEach(column=>{
         if(column.includes(empty_circle)){
             return false;
         }
@@ -273,82 +306,59 @@ function isFull(board){
     return true;
 }
 
-function virtualDropDisc(input,disc,boardCopy,topCopy){
-    boardCopy[topCopy[input]][input] = disc;
-    return boardCopy;
+function virtualDropDisc(input,disc,game){
+    game.board[game.top[input]][input] = disc;
+    game.top[input]--;
+    return copyGame(game);
 }
 
-function isValid(input){
-    return top[input]>=0;
+function isValid(input,game){
+    return game.top[input]>=0;
 }
 
-function copyBoard(board){
-    return JSON.parse(JSON.stringify(board));
+function copyGame(game){
+    return JSON.parse(JSON.stringify(game));
 }
 
-function copyTop(top){
-    return Array.from(top);
-}
 
-function maximizer(board){
+
+function maximizer(game){
     let scores = [];
     for(let i = 0;i<=horizontalMax-1;i++){
-        let boardCopy = copyBoard(board);
+        let newGame = copyGame(game);
 
-        if(isValid(i)){
-            virtualDropDisc(i,playersCircle[0],boardCopy,top);
-            scores.push(evaluateBoard(boardCopy));
+        if(isValid(i,game)){
+            virtualDropDisc(i,playersCircle[0],newGame);
+            scores.push(evaluateBoard(newGame));
         }
         else{
             scores.push(-Infinity);
         }
     }
-
-    return scores;
+    return scores.indexOf(Math.max(...scores));
 }
 
-function minimizer(board){
+function minimizer(game){
     let scores = [];
     for(let i = 0;i<=horizontalMax-1;i++){
-        let boardCopy = copyBoard(board);
+        let newGame = copyGame(game);
 
-        if(isValid(i)){
+        if(isValid(i,game)){
             
-            virtualDropDisc(i,playersCircle[1],boardCopy,top);
-            scores.push(evaluateBoard(boardCopy));
+            virtualDropDisc(i,playersCircle[1],newGame);
+            scores.push(evaluateBoard(newGame));
         }
         else{
             scores.push(Infinity);
         }
     }
-    return scores;
+    return scores.indexOf(Math.min(...scores));
 }
 
-function minimax(difficulty,board,top){
-    let isMaximizerTurn = true;
-    let currentDepth = 0;
-    let boardCopy = copyBoard(board);
-    let topCopy = copyTop(top);
-    let scores = [];
-
-    while(currentDepth<difficulty){
-        currentDepth++;
-        if(isMaximizerTurn){
-            scores = maximizer(boardCopy);
-            let maxIndex = scores.indexOf(Math.max(...scores))
-            boardCopy = virtualDropDisc(maxIndex,playersCircle[0],boardCopy,topCopy);
-            topCopy[maxIndex]--;
-        }
-        else{
-            scores = minimizer(boardCopy);
-            let minIndex = scores.indexOf(Math.min(...scores))
-            boardCopy = virtualDropDisc(minIndex,playersCircle[0],boardCopy,topCopy);
-        }
-        isMaximizerTurn = !isMaximizerTurn;
-        console.log(printBoard(boardCopy));
-    }
-    return scores;
+function minimax(currentDepth,difficulty){
+    
 }
+
 
 function printBoard(board){
     let message = "";
@@ -358,8 +368,9 @@ function printBoard(board){
     return message;
 }
 
-let scores = minimax(3,board,top);
-console.log(scores);
+console.log(maximizer(game));
+
 //let scores = minimizer(board);
 //let scores = maximizer(board);
+
 

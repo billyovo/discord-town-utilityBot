@@ -10,18 +10,18 @@ const diagonallyEvaluateStart = 3;
 const bottomLeftEvaluateEnd = 4;
 const bottomRightEvaluateStart = 5;
 const bottomRightEvaluateEnd = 3;
-const connectWeight = [0,1,2,5,Infinity];  //weight for 0,1,2,3,4 connected disc
+const connectWeight = [0,1,5,10,Infinity];  //weight for 0,1,2,3,4 connected disc
 
 let game = {
     board : [
         ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
         ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
         ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
-        ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
-        ["⚪","⚪","⚪","⚪","⚪","⚪","⚪"],
-        ["⚪","⚪","⚪","🔴","⚪","⚪","⚪"]
+        ["⚪","⚪","⚪","🔴","🔵","🔴","⚪"],
+        ["⚪","⚪","⚪","🔵","🔴","🔴","⚪"],
+        ["⚪","⚪","🔵","🔴","🔵","🔴","⚪"]
     ],
-    top: [5,5,5,4,5,5,5]
+    top: [5,5,4,2,2,2,5]
 }
 
 //score minimax evaluation formula:
@@ -51,7 +51,8 @@ function horizontalEvaluate(game,disc){
                 else{ //if the connected sequence is stopped by another player disc, calculate the score and reset connected
                     score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                     connected = 0;
-                    possibleConnected = 0;
+                    connectedMax = 0;
+                    
                 }
             }
             row++;
@@ -59,7 +60,7 @@ function horizontalEvaluate(game,disc){
         column--;
         score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];  //failsafe for out of boundary checks
         connected = 0;  //reset for next column iteration
-        possibleConnected = 0;
+        
         row = 0;
     }
     if(!isFinite(score)){
@@ -91,7 +92,8 @@ function verticalEvaluate(game,disc){
                 else{ 
                     score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                     connected = 0;
-                    possibleConnected = 0;
+                    connectedMax = 0;
+                    
                 }
             }
             column--;
@@ -99,7 +101,7 @@ function verticalEvaluate(game,disc){
         row++;
         score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];  
         connected = 0;  
-        possibleConnected = 0;
+        
         column = verticalMax-1;
     }
     if(!isFinite(score)){
@@ -139,17 +141,18 @@ Loop until the end of column        O O O O O O O
                     connectedMax = Math.max(connectedMax,connected);
                 }
                 else{ 
-                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
+                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
                     connected = 0;
-                    possibleConnected = 0;
+                    connectedMax = 0;
+                    
                 }
             }
             column_loop--;
             row++;
         }
-        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
+        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
         connected = 0;  
-        possibleConnected = 0;
+        
     }
 
 
@@ -178,17 +181,18 @@ Until the 4th column inclusive where 4 connect is no longer possible
                 connectedMax = Math.max(connectedMax,connected);
             }
             else{ 
-                score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
+                score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
                 connected = 0;
-                possibleConnected = 0;
+                connectedMax = 0;
+                
             }
         }
         row_loop++;
         column--;
     }
-        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
+        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
         connected = 0;  
-        possibleConnected = 0;
+        
     }
     if(!isFinite(score)){
         return Infinity;
@@ -227,17 +231,18 @@ function bottomRightEvaluate(game,disc){
                     connectedMax = Math.max(connectedMax,connected);
                 }
                 else{ 
-                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
+                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
                     connected = 0;
-                    possibleConnected = 0;
+                    connectedMax = 0;
+                    
                 }
             }
             column_loop--;
             row--;
         }
-        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
+        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
         connected = 0;  
-        possibleConnected = 0;
+        
     }
 
 
@@ -265,17 +270,18 @@ function bottomRightEvaluate(game,disc){
                 connectedMax = Math.max(connectedMax,connected);
             }
             else{ 
-                score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
+                score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
                 connected = 0;
-                possibleConnected = 0;
+                connectedMax = 0;
+                
             }
         }
         row_loop--;
         column--;
     }
-        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
+        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
         connected = 0;  
-        possibleConnected = 0;
+        
     }
     if(!isFinite(score)){
         return Infinity;
@@ -306,7 +312,7 @@ function isFull(game){
     return true;
 }
 
-function virtualDropDisc(input,disc,game){
+function dropDisc(input,disc,game){
     game.board[game.top[input]][input] = disc;
     game.top[input]--;
     return copyGame(game);
@@ -320,15 +326,12 @@ function copyGame(game){
     return JSON.parse(JSON.stringify(game));
 }
 
-
-
 function maximizer(game){
     let scores = [];
     for(let i = 0;i<=horizontalMax-1;i++){
         let newGame = copyGame(game);
-
         if(isValid(i,game)){
-            virtualDropDisc(i,playersCircle[0],newGame);
+            dropDisc(i,playersCircle[0],newGame);
             scores.push(evaluateBoard(newGame));
         }
         else{
@@ -342,10 +345,8 @@ function minimizer(game){
     let scores = [];
     for(let i = 0;i<=horizontalMax-1;i++){
         let newGame = copyGame(game);
-
-        if(isValid(i,game)){
-            
-            virtualDropDisc(i,playersCircle[1],newGame);
+        if(isValid(i,game)){          
+            dropDisc(i,playersCircle[1],newGame);
             scores.push(evaluateBoard(newGame));
         }
         else{
@@ -360,16 +361,18 @@ function minimax(currentDepth,difficulty){
 }
 
 
-function printBoard(board){
+function printBoard(game){
     let message = "";
-    board.forEach(row=>{
+    game.board.forEach(row=>{
         message+=row.join(" ")+"\r\n";
     })
     return message;
 }
 
-console.log(maximizer(game));
 
+
+console.log(minimizer(game));
+//console.log(minimizer(game));
 //let scores = minimizer(board);
 //let scores = maximizer(board);
 

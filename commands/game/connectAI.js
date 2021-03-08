@@ -533,10 +533,7 @@ module.exports = class connect extends Command{
         var currentDepth = 0;
         var isMaximizerTurn = false;
         var boardValue;
-        var full;
         while(currentDepth!==difficulty){
-            full = isFull(game);
-            console.log(full);
             boardValue = evaluateBoard(game);
             if(!isFinite(boardValue)||full){
                 return boardValue;

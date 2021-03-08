@@ -535,7 +535,7 @@ module.exports = class connect extends Command{
         var boardValue;
         while(currentDepth!==difficulty){
             boardValue = evaluateBoard(game);
-            if(!isFinite(boardValue)||full){
+            if(!isFinite(boardValue)){
                 return boardValue;
             }
 

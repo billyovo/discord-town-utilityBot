@@ -115,7 +115,7 @@ module.exports = class connect extends Command{
 
    function checkWinHorizontal(board,input){
        let pointer = 0;
-       let column = top[input];
+       let column = game.top[input];
        let connected = 1;
        while(pointer+1<horizontalMax){
            if(board[column][pointer]===board[column][pointer+1]&&board[column][pointer]!==empty_circle){
@@ -134,7 +134,7 @@ module.exports = class connect extends Command{
 
    function getBottomLeft(input){
        let row = input;
-       let column = top[input];
+       let column = game.top[input];
        while(row>0&&column<verticalMax-1){
            row--;
            column++;
@@ -166,7 +166,7 @@ module.exports = class connect extends Command{
 
    function getBottomRight(input){
        let row = input;
-       let column = top[input];
+       let column = game.top[input];
        while(row<horizontalMax-1&&column<verticalMax-1){
            row++;
            column++;

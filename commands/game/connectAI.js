@@ -17,7 +17,7 @@ module.exports = class connect extends Command{
 		});
 	}
 
-    run(message,{difficulty}) {  
+    run(message, client, {difficulty}) {  
 
     //----------------------------------------------game related functions--------------------------------------------------------
         function addReactions(message){

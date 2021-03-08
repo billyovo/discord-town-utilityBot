@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 module.exports = class connect extends Command{
 	constructor(client) {
 		super(client, {
-			name: 'connectAI',
+			name: 'connectai',
 			group: 'game',
 			memberName: 'connectAI',
 			description: 'play connect with AI',

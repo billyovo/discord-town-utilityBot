@@ -608,7 +608,6 @@ module.exports = class connect extends Command{
                         scores.push(await minimax(difficulty,evalGame[i]));
                     }
                     input = scores.indexOf(Math.max(...scores));
-                    console.log(scores);
                 }
 
                 if(gameContinue){

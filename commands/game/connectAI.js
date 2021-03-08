@@ -75,7 +75,7 @@ module.exports = class connect extends Command{
             collector.on('collect',(reaction,user)=>{
                 reaction.users.remove(user);
                 let input = numberEmotes.findIndex(emoteName=>emoteName===reaction.emoji.name);
-                if(isValid(input)){
+                if(isValid(input,game)){
                     isTimeOut = false;
                     collector.stop();      
                     resolve(input);

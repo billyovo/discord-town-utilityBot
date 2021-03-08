@@ -5,7 +5,7 @@ module.exports = class connect extends Command{
 		super(client, {
 			name: 'connectai',
 			group: 'game',
-			memberName: 'connectAI',
+			memberName: 'connectai',
 			description: 'play connect with AI',
             args: [
                 {

@@ -17,7 +17,7 @@ module.exports = class connect extends Command{
 		});
 	}
 
-    run(message, client, {difficulty}) {  
+    run(message, {difficulty}) {  
 
     //----------------------------------------------game related functions--------------------------------------------------------
         function addReactions(message){
@@ -575,7 +575,7 @@ module.exports = class connect extends Command{
         const bottomRightEvaluateEnd = 3;
         const connectWeight = [0,1,2,10,Infinity];  //weight for 0,1,2,3,4 connected disc
 
-        let players = [client.user,message.author];
+        let players = [this.client.user,message.author];
         let turn = 1;
         let game = { 
             top: [5,5,5,5,5,5,5],
@@ -595,7 +595,7 @@ module.exports = class connect extends Command{
             let gameContinue = true;
             while(gameContinue){
                 let input = -1;
-                if(players[turn%2]!==client.user){
+                if(players[turn%2]!==this.client.user){
                     input = await receiveGameInput(msg,players,turn)
                                   .catch(()=>{
                                       gameEnd(parseBoardToString(game.board),turn,players,msg,STATUS.TIMEOUT);

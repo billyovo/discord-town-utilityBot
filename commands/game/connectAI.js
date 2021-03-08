@@ -513,7 +513,7 @@ module.exports = class connect extends Command{
         return scores.indexOf(Math.max(...scores));
     }
 
-    async function minimizer(game){
+    function minimizer(game){
         let scores = [];
         for(let i = 0;i<=horizontalMax-1;i++){
             let newGame = copyGame(game);
@@ -528,7 +528,7 @@ module.exports = class connect extends Command{
         return scores.indexOf(Math.min(...scores));
     }
 
-    function minimax(difficulty,game){
+    async function minimax(difficulty,game){
         var game = copyGame(game);
         var currentDepth = 0;
         var isMaximizerTurn = false;
@@ -605,7 +605,7 @@ module.exports = class connect extends Command{
                     for(let i = 0;i<=horizontalMax-1;i++){
                         evalGame.push(copyGame(game));
                         evalGame[i] = dropDisc(i,playersCircle[0],evalGame[i]);
-                        scores.push(minimax(difficulty,evalGame[i]));
+                        scores.push(await minimax(difficulty,evalGame[i]));
                     }
                     input = scores.indexOf(Math.max(...scores));
                     console.log(scores);

@@ -313,7 +313,7 @@ module.exports = class connect extends Command{
                         connectedMax = Math.max(connectedMax,connected);
                     }
                     else{ 
-                        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
+                        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                         connected = 0;
                         connectedMax = 0;
 
@@ -322,7 +322,7 @@ module.exports = class connect extends Command{
                 column_loop--;
                 row++;
             }
-            score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
+            score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
             connected = 0;  
 
         }
@@ -353,7 +353,7 @@ module.exports = class connect extends Command{
                     connectedMax = Math.max(connectedMax,connected);
                 }
                 else{ 
-                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
+                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                     connected = 0;
                     connectedMax = 0;
 
@@ -362,7 +362,7 @@ module.exports = class connect extends Command{
             row_loop++;
             column--;
         }
-            score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
+            score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
             connected = 0;  
 
         }
@@ -403,7 +403,7 @@ module.exports = class connect extends Command{
                         connectedMax = Math.max(connectedMax,connected);
                     }
                     else{ 
-                        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
+                        score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                         connected = 0;
                         connectedMax = 0;
 
@@ -412,7 +412,7 @@ module.exports = class connect extends Command{
                 column_loop--;
                 row--;
             }
-            score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
+            score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
             connected = 0;  
 
         }
@@ -442,7 +442,7 @@ module.exports = class connect extends Command{
                     connectedMax = Math.max(connectedMax,connected);
                 }
                 else{ 
-                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
+                    score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
                     connected = 0;
                     connectedMax = 0;
 
@@ -451,7 +451,7 @@ module.exports = class connect extends Command{
             row_loop--;
             column--;
         }
-            score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax]*0.8;
+            score += scoreBase * Math.max(0,possibleConnected-calPossibleFour) * connectedMax * connectWeight[connectedMax];
             connected = 0;  
 
         }
@@ -533,14 +533,14 @@ module.exports = class connect extends Command{
         var currentDepth = 0;
         var isMaximizerTurn = false;
         var boardValue;
-
+        var full;
         while(currentDepth!==difficulty){
-
+            full = isFull(game);
+            console.log(full);
             boardValue = evaluateBoard(game);
-            if(!isFinite(boardValue)||isFull(game)){
+            if(!isFinite(boardValue)||full){
                 return boardValue;
             }
-
 
             if(isMaximizerTurn){
                 game = dropDisc(maximizer(game),playersCircle[0],game);
@@ -611,7 +611,7 @@ module.exports = class connect extends Command{
                         scores.push(minimax(difficulty,evalGame[i]));
                     }
                     input = scores.indexOf(Math.max(...scores));
-		    console.log(scores);
+                    console.log(scores);
                 }
 
                 if(gameContinue){

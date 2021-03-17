@@ -330,7 +330,7 @@ function maximizer(game){
     let scores = [];
     for(let i = 0;i<=horizontalMax-1;i++){
         let newGame = copyGame(game);
-        if(isValid(i,game)){
+        if(game.top[i]!==-1){
             dropDisc(i,playersCircle[0],newGame);
             scores.push(evaluateBoard(newGame));
         }
@@ -345,7 +345,7 @@ function minimizer(game){
     let scores = [];
     for(let i = 0;i<=horizontalMax-1;i++){
         let newGame = copyGame(game);
-        if(isValid(i,game)){          
+        if(game.top[i]!==-1){          
             dropDisc(i,playersCircle[1],newGame);
             scores.push(evaluateBoard(newGame));
         }

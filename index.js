@@ -27,7 +27,7 @@ client.registry
 	.registerDefaultTypes()
 	.registerGroups([
 		['game', 'game group?'],
-		['town', 'town group'],
+		['minecraft', 'minecraft town group'],
 	])
 	.registerDefaultGroups()
 	.registerDefaultCommands({

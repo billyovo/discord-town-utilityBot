@@ -35,6 +35,5 @@ run(message) {
       })
   })
   .catch(error => {msg.channel.send(error.message)});
-	});
-  }
+	};
 }

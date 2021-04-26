@@ -27,9 +27,10 @@ run(message) {
          .setTitle('非洲渡喧')
          .setThumbnail(message.guild.iconURL())
          .addFields(
-		{ name: '城鎮幣', value: guild.balance },
-		 { name: '等級', value: guild.level },
-           { name: '創建日期', value: date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate()}
+		{ name: '等級', value: guild.level, inline:true },
+		{ name: '城鎮幣', value: guild.balance, inline:true },
+		 
+           { name: '創建日期', value: date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()}
            )
          message.channel.send(embed);
         }

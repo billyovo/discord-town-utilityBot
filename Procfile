@@ -1,1 +1,1 @@
-worker: npm install luxon
+worker: node .

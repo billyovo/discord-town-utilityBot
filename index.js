@@ -23,7 +23,7 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 	let birthday = DateTime.fromISO("2021-01-02");
 	let diff = now.diff(birthday,'days').toObject();
 	diff = diff.days.toString();
-	let channel = client.channel.fetch(728613506202599474,true,true);
+	let channel = client.channels.fetch(728613506202599474,true,true);
 	//let channel = client.channels.cache.get(728613506202599474);
 	console.log(channel);
 	let middle = diff == 0 ? "零" : locales[diff[1]]+"十";

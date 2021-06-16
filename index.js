@@ -26,7 +26,7 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 	diff = diff.toString();
 	let channel = client.channels.cache.get(728613506202599474);
 	console.log(channel);
-	let middle = diff === 0 ? "零" : locales[diff1[1]]+"十";
+	let middle = diff === 0 ? "零" : locales[diff[1]]+"十";
 	console.log("小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後不快樂");
   }, null, true, 'Asia/Taipei');
 

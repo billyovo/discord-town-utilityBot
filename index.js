@@ -17,7 +17,7 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 	});
   }, null, true, 'Asia/Taipei');
 
-  var bday = new CronJob('*/1 * * * *', function() {
+  var bday = new CronJob('0 0 * * *', function() {
 	const locales = ["零","一","二","三","四","五","六","七","八","九"];
 	let now = DateTime.now();
 	let birthday = DateTime.fromISO("2021-01-02");
@@ -27,8 +27,8 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 	.then((channel)=> {
 		console.log(channel);
 		let middle = diff == 0 ? "零" : locales[diff[1]]+"十";
-		channel.send("<@430842771847380997>, @everyone 小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後**NEGATIVE**");
-		console.log("<@430842771847380997>, @everyone 小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後**NEGATIVE**");
+		channel.send("<@430842771847380997>, @everyone 小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後 **NEGATIVE**");
+		console.log("<@430842771847380997>, @everyone 小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後 **NEGATIVE**");
 	} )
 	.catch((error)=>{console.error(error)})
 	

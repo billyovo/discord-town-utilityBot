@@ -23,7 +23,10 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 	let birthday = DateTime.fromISO("2021-01-02");
 	let diff = now.diff(birthday,'days').toObject();
 	diff = diff.days.toString();
-	let channel = await client.channels.fetch(728613506202599474,true,true);
+	let channel;
+	client.channels.fetch(728613506202599474,true,true)
+	.then((chan)=> {channel = chan} )
+	.catch((error)=>{console.error(error)})
 	//let channel = client.channels.cache.get(728613506202599474);
 	let middle = diff == 0 ? "零" : locales[diff[1]]+"十";
 	channel.send("<@430842771847380997>, @everyone 小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後**NEGATIVE**");

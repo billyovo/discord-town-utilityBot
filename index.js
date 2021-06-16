@@ -27,7 +27,7 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 	let channel = client.user.username;
 	console.log(channel);
 	let middle = diff == 0 ? "零" : locales[diff[1]]+"十";
-	channel.send("<@430842771847380997>, @everyone 小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後不快樂");
+	//channel.send("<@430842771847380997>, @everyone 小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後不快樂");
 	console.log("<@430842771847380997>, @everyone 小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後不快樂");
   }, null, true, 'Asia/Taipei');
 

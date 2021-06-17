@@ -43,9 +43,6 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 			}
 			
 		}
-		let first = diff[0] == 0 ? "" : locales[diff[0]]+"百";
-		let middle = diff[1] == 0 ? "零" : locales[diff[1]]+"十";
-		let last = diff[2] == 0 ? "" : locales[diff[2]];
 		//channel.send("<@430842771847380997>, @everyone 小妹生日後第"+first+middle+last+"天後 **NEGATIVE**");
 		console.log("<@430842771847380997>, @everyone 小妹生日後第"+first+middle+last+"天後 **NEGATIVE**");
 	} )

@@ -38,7 +38,7 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 				last = diff[1] == 0 ? "" : locales[diff[1]];
 				break;
 			}
-			case 3:{
+			case 1:{
 				last = locales[diff[0]];
 			}
 			

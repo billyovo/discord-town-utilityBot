@@ -17,7 +17,7 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 	});
   }, null, true, 'Asia/Taipei');
 
-  var bday = new CronJob('*/1 * * * *', function() {
+  var bday = new CronJob('1 0 * * *', function() {
 	const locales = ["零","一","二","三","四","五","六","七","八","九"];
 	let now = DateTime.now().startOf("day");
 	let birthday = DateTime.fromISO("2021-01-02").startOf("day");

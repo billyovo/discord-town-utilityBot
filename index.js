@@ -25,7 +25,24 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 	diff = parseInt(diff.days).toString();
 	client.channels.fetch('728613506202599474',true,false)
 	.then((channel)=> {
-		console.log(diff);
+		let first,middle,last = "";
+		switch(diff.length){
+			case 3:{
+				first = diff[0] == 0 ? "" : locales[diff[0]]+"百";
+				middle = diff[1] == 0 ? "零" : locales[diff[1]]+"十";
+				last = diff[2] == 0 ? "" : locales[diff[2]];
+				break;
+			}
+			case 2:{
+				middle = (diff[0] == 1 ? "" : locales[diff[0]])+"十";
+				last = diff[1] == 0 ? "" : locales[diff[1]];
+				break;
+			}
+			case 3:{
+				last = locales[diff[0]];
+			}
+			
+		}
 		let first = diff[0] == 0 ? "" : locales[diff[0]]+"百";
 		let middle = diff[1] == 0 ? "零" : locales[diff[1]]+"十";
 		let last = diff[2] == 0 ? "" : locales[diff[2]];

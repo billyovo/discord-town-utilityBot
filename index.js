@@ -43,7 +43,7 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 			}
 			
 		}
-		//channel.send("<@430842771847380997>, @everyone 小妹生日後第"+first+middle+last+"天後 **NEGATIVE**");
+		channel.send("<@430842771847380997>, @everyone 小妹生日後第"+first+middle+last+"天後 **NEGATIVE**");
 		console.log("<@430842771847380997>, @everyone 小妹生日後第"+first+middle+last+"天後 **NEGATIVE**");
 	} )
 	.catch((error)=>{console.error(error)})

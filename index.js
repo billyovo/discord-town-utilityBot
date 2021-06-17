@@ -19,13 +19,13 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 
   var bday = new CronJob('1 0 * * *', function() {
 	const locales = ["零","一","二","三","四","五","六","七","八","九"];
-	let now = DateTime.now();
-	let birthday = DateTime.fromISO("2021-01-02");
+	let now = DateTime.now().startOf("day");
+	let birthday = DateTime.fromISO("2021-01-02").startOf("day");
 	let diff = now.diff(birthday,'days').toObject();
 	diff = diff.days.toString();
 	client.channels.fetch('728613506202599474',true,false)
 	.then((channel)=> {
-		console.log(channel);
+		console.log(diff);
 		let middle = diff == 0 ? "零" : locales[diff[1]]+"十";
 		channel.send("<@430842771847380997>, @everyone 小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後 **NEGATIVE**");
 		console.log("<@430842771847380997>, @everyone 小妹生日後第"+locales[diff[0]]+"百"+middle+locales[diff[2]]+"天後 **NEGATIVE**");

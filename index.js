@@ -17,10 +17,10 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 	});
   }, null, true, 'Asia/Taipei');
 
-  var bday = new CronJob('1 0 * * *', function() {
+  var bday = new CronJob('*/1 * * * *', function() {
 	const locales = ["零","一","二","三","四","五","六","七","八","九"];
 	let now = DateTime.now().startOf("day");
-	let birthday = DateTime.fromISO("2021-01-02").startOf("day");
+	let birthday = DateTime.now().startOf("day").set({day: 1, month: 2});
 	let diff = now.diff(birthday,'days').toObject();
 	diff = parseInt(diff.days).toString();
 	client.channels.fetch('728613506202599474',true,false)
@@ -40,11 +40,19 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 			}
 			case 1:{
 				last = locales[diff[0]];
+				break;
 			}
 			
 		}
-		channel.send("<@430842771847380997>, @everyone 小妹生日後第"+first+middle+last+"天後 **NEGATIVE**");
-		console.log("<@430842771847380997>, @everyone 小妹生日後第"+first+middle+last+"天後 **NEGATIVE**");
+		if(diff == 0){
+			//channel.send("<@430842771847380997>, @everyone 小妹生日快樂");
+			console.log("<@430842771847380997>, @everyone 小妹生日快樂");
+		}
+		else{
+			//channel.send("<@430842771847380997>, @everyone 小妹生日後第"+first+middle+last+"天後 **NEGATIVE**");
+			console.log("<@430842771847380997>, @everyone 小妹生日後第"+first+middle+last+"天後 **NEGATIVE**");
+		}
+		
 	} )
 	.catch((error)=>{console.error(error)})
 	

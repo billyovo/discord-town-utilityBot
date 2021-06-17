@@ -28,8 +28,18 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 		let first,middle,last = "";
 		switch(diff.length){
 			case 3:{
-				first = diff[0] == 0 ? "" : locales[diff[0]]+"百";
-				middle = diff[1] == 0 ? "零" : locales[diff[1]]+"十";
+				first = locales[diff[0]]+"百";
+				if(diff[1] == 0){
+					if(diff[2] == 0){
+						middle = "";
+					}
+					else{
+						middle = "零";
+					}
+				}
+				else{
+					middle = locales[diff[1]]+"十"
+				}
 				last = diff[2] == 0 ? "" : locales[diff[2]];
 				break;
 			}

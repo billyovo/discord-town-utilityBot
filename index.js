@@ -21,6 +21,11 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 	const locales = ["零","一","二","三","四","五","六","七","八","九"];
 	let now = DateTime.now().endOf("day");
 	let birthday = DateTime.now().startOf("day").set({day: 2, month: 1});
+
+	if(birthday > now && birthday.ordinal !== now.ordinal){
+		birthday.minus({year: 1});
+	}
+
 	let diff = now.diff(birthday,'days').toObject();
 	diff = parseInt(diff.days).toString();
 	client.channels.fetch('728613506202599474',true,false)

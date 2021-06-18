@@ -13,7 +13,13 @@ module.exports = class connect extends Command{
 	}
 
 run(message) {
-    fetch('https://towns.letsdream.today/api/v1/guilds',{method: "GET"})
+    fetch('https://towns.letsdream.today/api/v1/guilds',{
+      method: "GET",
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+    })
 	  .then(response => {
       console.log(response);
       return response.json();

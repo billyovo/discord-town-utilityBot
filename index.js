@@ -19,7 +19,7 @@ var keepAwake = new CronJob('*/25 * * * *', function() {
 
   var bday = new CronJob('*/1 * * * *', function() {
 	const locales = ["零","一","二","三","四","五","六","七","八","九"];
-	let now = DateTime.now().add({hour: 8}).endOf("day");
+	let now = DateTime.now().plus({hour: 8}).endOf("day");
 	let birthday = DateTime.now().startOf("day").set({day: 2, month: 1});
 
 	if(birthday > now && birthday.ordinal !== now.ordinal){

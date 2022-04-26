@@ -23,8 +23,8 @@ module.exports = {
             for(let i=0;i<zones.length;i++){
                 embed.addFields(
                     {
-                        name: names[i]+" ("+data[i].utcOffSet+") ",
-                        value: data[i].timeString+" "+data[i].isDayLightSaving
+                        name: names[i]+" ("+data[i].utcOffSet+" "+data[i].isDayLightSaving+")",
+                        value: data[i].timeString
                     }
                 )
                 

@@ -1,5 +1,7 @@
 const CronJob = require('cron').CronJob;
 const {bot} = require("../discord/init.js");
+const {DateTime} = require("luxon");
+
   const bday = new CronJob('1 0 * * *', function() {
 	const locales = ["零","一","二","三","四","五","六","七","八","九"];
 	let now = DateTime.now().plus({hour: 8}).endOf("day");

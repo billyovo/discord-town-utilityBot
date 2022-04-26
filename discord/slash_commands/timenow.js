@@ -15,16 +15,17 @@ module.exports = {
             })
             const data = all_dt.map((dt)=>(
                 {
-                    isDayLightSaving: dt.isInDST ? ":sunny: " : " ",
+                    isDayLightSaving: dt.isInDST ? ":sunny:" : "",
                     timeString: dt.toFormat("HH:mm"),
+                    date: dt.toFormat("dd/LL"),
                     utcOffSet: "UTC"+dt.toFormat("ZZ")
                 }
             ))
             for(let i=0;i<zones.length;i++){
                 embed.addFields(
                     {
-                        name: names[i]+" ("+data[i].utcOffSet+" "+data[i].isDayLightSaving+")",
-                        value: data[i].timeString
+                        name: names[i]+" "+data[i].isDayLightSaving+" ("+data[i].utcOffSet+")",
+                        value: data[i].timeString+" | "+data[i].date,
                     }
                 )
                 

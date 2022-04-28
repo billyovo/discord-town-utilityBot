@@ -15,7 +15,9 @@ const {DateTime} = require("luxon");
 	diff = parseInt(diff.days).toString();
 	bot.channels.fetch('728613506202599474',true,false)
 	.then((channel)=> {
-		let first,middle,last = "";
+		let first = "";
+		let middle = "";
+		let last = "";
 		switch(diff.length){
 			case 3:{
 				first = locales[diff[0]]+"百";

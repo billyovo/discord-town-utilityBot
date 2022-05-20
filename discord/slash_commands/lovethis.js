@@ -5,7 +5,7 @@ const { createCanvas, loadImage } = require('canvas')
 module.exports = {
 
     run: async function(bot, interaction){
-        interaction.deferReply();
+        await interaction.deferReply();
         const url = interaction.options.get("image")?.attachment?.url || interaction.options.get("link").value;
         const canvas = createCanvas(1000, 560);
         const ctx = canvas.getContext("2d");
@@ -21,7 +21,7 @@ module.exports = {
             interaction.editReply({files: [attachment]});
         }
         catch(error){
-            interaction.editReply({content: "an error occured!", ephemeral: true});
+            interaction.editReply({content: "an error occured!"});
         }
        
     }

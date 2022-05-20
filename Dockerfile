@@ -1,4 +1,4 @@
-FROM node:lts-buster-slim
+FROM amd64/node:lts-buster-slim
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app

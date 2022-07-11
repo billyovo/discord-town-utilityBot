@@ -1,16 +1,16 @@
-name: Push Container to Heroku
-
 on: 
   push:
     branches:
       - main
 jobs:
   build:
-    uses: AkhileshNS/heroku-deploy@v3.12.12
-    name: Deploy to Heroku
-    with:
-      heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-      heroku_email: ${{secrets.EMAIL}}
-      heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-      usedocker: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_email: ${{secrets.EMAIL}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          usedocker: true
     

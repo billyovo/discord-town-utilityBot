@@ -5,9 +5,11 @@ const { createCanvas, loadImage } = require('canvas')
 module.exports = {
 
     run: async function(bot, interaction){
-        const url = interaction.options.get("image")?.attachment?.url || interaction.options.get("link").value;
+        const url = interaction.options.get("image")?.attachment?.url || interaction.options.get("link")?.value;
+        console.log(url);
         if(!url){
-            interaction.reply("Nothing is received!");
+            interaction.reply({content: "Nothing is received!", ephemeral: true});
+            return;
         }
         await interaction.deferReply();
         const canvas = createCanvas(1000, 560);

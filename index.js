@@ -1,5 +1,4 @@
 const path = require('path');
-const fetch = require("node-fetch");
 require('dotenv').config();
 require("./cronJobs/jobs.js");
 const Discord = require('discord.js')
@@ -35,7 +34,7 @@ function readCommands(directory, subDirectory = ""){
     readCommands('./discord/commands');
     readCommands('./discord/slash_commands');
 
-bot.on('messageCreate',async (msg) => {
+bot.on('messageCreate', async (msg) => {
     if(!msg.content.startsWith(prefix)){return;}
     const params = msg.content.substring(1).split(' ');
     const commandName = params.shift(); 

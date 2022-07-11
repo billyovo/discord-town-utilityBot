@@ -14,4 +14,14 @@ jobs:
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
           heroku_email: ${{secrets.EMAIL}}
           usedocker: true
+          justlogin: true
+
+      - name: "Login to heroku registry"
+        run: heroku container:login
+
+      - name: "Build and push to heroku registry"
+        run: heroku container:push worker --app ${{secrets.HEROKU_APP_NAME}}
+
+      - name: "Releases the container"
+        run: heroku container:release web --app ${{secrets.HEROKU_APP_NAME}}
     

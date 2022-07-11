@@ -43,7 +43,6 @@ module.exports = {
                     inline: true
                 }
             )
-
             
             interaction.reply({ embeds: [embed] });
         }

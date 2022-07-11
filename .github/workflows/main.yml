@@ -18,10 +18,16 @@ jobs:
           heroku_email: ${{ secrets.EMAIL }}
           
       - name: "Login to heroku registry"
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:login
 
       - name: "Build and push to heroku registry"
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:push worker --app ${{ secrets.HEROKU_APP_NAME }}
 
       - name: "Releases the container"
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release worker --app ${{ secrets.HEROKU_APP_NAME }}

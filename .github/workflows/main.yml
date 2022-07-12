@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Heroku Login
+      - name: Login
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_EMAIL: ${{ secrets.EMAIL }}
@@ -22,6 +22,8 @@ jobs:
               login $HEROKU_EMAIL
               password $HEROKU_API_KEY
           EOF
+      - name: Docker Login
+        run: heroku container:login
 
       - name: Build and push
         env:

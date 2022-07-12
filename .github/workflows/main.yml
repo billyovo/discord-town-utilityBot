@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Login Docker
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: docker login --username=_ --password=$(HEROKU_API_KEY) registry.heroku.com
+        
       - name: Build and push
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}

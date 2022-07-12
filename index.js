@@ -31,7 +31,7 @@ function readCommands(directory, subDirectory = ""){
 }
 
     bot.commands = new Discord.Collection();
-    readCommands('./discord/commands');
+ //   readCommands('./discord/commands');
     readCommands('./discord/slash_commands');
 
 bot.on('messageCreate', async (msg) => {

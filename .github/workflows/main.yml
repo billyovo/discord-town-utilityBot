@@ -26,9 +26,9 @@ jobs:
       - name: Build and push
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-        run: heroku container:push -a $HEROKU_APP_NAME worker
+        run: heroku container:push --app $HEROKU_APP_NAME worker
         
       - name: Release
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-        run: heroku container:release -a $HEROKU_APP_NAME worker
+        run: heroku container:release --app $HEROKU_APP_NAME worker

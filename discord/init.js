@@ -4,7 +4,7 @@ const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MES
 bot.login(process.env.TOKEN);
 
 bot.on('ready', async () => {
-    console.log("Connected to Discord as: "+bot.user.tag);
+    console.log("Connected to Discord as: "+bot.user.username+bot.user.tag);
 })
 
 module.exports = {

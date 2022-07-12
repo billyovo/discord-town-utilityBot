@@ -5,16 +5,14 @@ on:
     branches:
       - main
 jobs:
-  build:
+  Deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Login
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_EMAIL: ${{ secrets.EMAIL }}
+      - name: Heroku Login Credentials
         run: |
           cat > ~/.netrc <<EOF
             machine api.heroku.com
@@ -24,10 +22,12 @@ jobs:
               login $HEROKU_EMAIL
               password $HEROKU_API_KEY
           EOF
-      - name: Add Heroku remote
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+      - name: Add Heroku Remote
         run: heroku git:remote --app $HEROKU_APP_NAME
         env:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-
-      - name: Push
+      - name: Push to Heroku
         run: git push heroku master

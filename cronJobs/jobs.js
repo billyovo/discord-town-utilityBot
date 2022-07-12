@@ -20,7 +20,7 @@ const {DateTime} = require("luxon");
 			channel.send("@everyone 小妹有錢人生活"+Math.round(diff_year.years)+"周年 **POSITIVE**");
 		}
 		else{
-			channel.send("@everyone 小妹有錢人生活第"+diff.days+"天 **POSITIVE**");
+			channel.send("@everyone 小妹有錢人生活第"+Math.round(diff.days)+"天 **POSITIVE**");
 		}
 		
 	} )

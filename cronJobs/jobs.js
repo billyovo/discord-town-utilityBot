@@ -13,7 +13,7 @@ const {DateTime} = require("luxon");
 	let diff = now.diff(birthday,'days').toObject();
 	diff = Math.round(diff.days);
 	let diff_year = now.diff(birthday,'years').toObject();
-	diff_year = Math.round(diff_years.years);
+	diff_year = Math.round(diff_year.years);
 	bot.channels.fetch('728613506202599474',true,false)
 	.then((channel)=> {
 		

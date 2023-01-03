@@ -2,7 +2,8 @@
   "name": "discord-town-utilityBot",
   "version": "1.0.0",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "test": "jest"
   },
   "dependencies": {
     "canvas": "^2.9.3",
@@ -22,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/billyovo/discord-town-utilityBot/issues"
   },
-  "homepage": "https://github.com/billyovo/discord-town-utilityBot#readme"
+  "homepage": "https://github.com/billyovo/discord-town-utilityBot#readme",
+  "devDependencies": {
+    "jest": "^29.3.1"
+  }
 }

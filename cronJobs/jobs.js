@@ -1,6 +1,6 @@
 const CronJob = require('cron').CronJob;
-const {bot} = require("../discord/init.js");
-const {DateTime} = require("luxon");
+const { bot } = require("../discord/init.js");
+const { DateTime } = require("luxon");
 
   const newLife = new CronJob('1 0 * * *', function() {
 	let now = DateTime.now().setZone("Asia/Taipei").endOf("day");

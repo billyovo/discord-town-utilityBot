@@ -10,7 +10,7 @@ module.exports = {
 
             const time_length = time.split(" ").length;
 
-            const dt = DateTime.fromFormat(time, time_length === 1 ? "HH:ss" : "dd/mm HH:ss", {
+            const dt = DateTime.fromFormat(time, time_length === 1 ? "HH:mm" : "dd/MM HH:mm", {
                 zone: from_timezone
             })
             
@@ -29,7 +29,7 @@ module.exports = {
             embed.addFields(
                 {
                     name: from_timezone,
-                    value: dt.toFormat("dd/MM | HH:ss"),
+                    value: dt.toFormat("dd/MM | HH:mm"),
                     inline: true
                 },
                 {
@@ -39,7 +39,7 @@ module.exports = {
                 },
                 {
                     name: to_timezone,
-                    value: dt_converted.toFormat("dd/MM | HH:ss"),
+                    value: dt_converted.toFormat("dd/MM | HH:mm"),
                     inline: true
                 }
             )

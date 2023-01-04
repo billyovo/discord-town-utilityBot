@@ -11,7 +11,7 @@ function returnDiff(now){
     }
     else{
         const diff = now.diff(arrival_date,'days').toObject();
-        return Math.round(diff.days)+"天";
+        return "第"+Math.round(diff.days)+"天";
     }
    
 }
@@ -20,7 +20,7 @@ const newLife = new CronJob('1 0 * * *', function() {
 
 	bot.channels.fetch('728613506202599474',true,false)
 	.then((channel)=> {
-		channel.send("@everyone 小妹有錢人生活第"+returnDiff(now)+" **POSITIVE**");
+		channel.send("@everyone 小妹有錢人生活"+returnDiff(now)+" **POSITIVE**");
 	} )
 	.catch((error)=>{console.error(error)})
 	

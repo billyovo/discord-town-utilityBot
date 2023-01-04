@@ -32,13 +32,6 @@ function readCommands(directory, subDirectory = ""){
     bot.commands = new Discord.Collection()
     readCommands('./discord/slash_commands');
 
-bot.on('messageCreate', async (msg) => {
-    if(!msg.content.startsWith(prefix)){return;}
-    const params = msg.content.substring(1).split(' ');
-    const commandName = params.shift(); 
-    bot.commands.get(commandName)?.run(bot,msg,params);
-})
-
 bot.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
 	const { commandName } = interaction;

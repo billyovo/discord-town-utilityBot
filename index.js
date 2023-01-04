@@ -4,8 +4,7 @@ require("./cronJobs/jobs.js");
 const Discord = require('discord.js')
 const {bot} = require("./discord/init.js");
 const fs = require("fs");
-const config = require("./config.json");
-const prefix = config.prefix;
+
 
 function setCommand(commandName, command){
     bot.commands.set(commandName, command);
@@ -30,8 +29,7 @@ function readCommands(directory, subDirectory = ""){
     }
 }
 
-    bot.commands = new Discord.Collection();
- //   readCommands('./discord/commands');
+    bot.commands = new Discord.Collection()
     readCommands('./discord/slash_commands');
 
 bot.on('messageCreate', async (msg) => {

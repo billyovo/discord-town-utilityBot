@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node .",
-    "test": "jest"
+    "test": "jest",
+    "register": "node register.js"
   },
   "dependencies": {
-    "canvas": "^2.9.3",
+    "axios": "^1.4.0",
+    "canvas": "^2.11.0",
     "cron": "^1.8.2",
     "discord.js": "^13.7.0",
     "dotenv": "^16.0.0",
-    "luxon": "^2.3.2"
+    "luxon": "^2.3.2",
+    "node-tesseract-ocr": "^2.2.1"
   },
   "description": "games and utility bot",
   "main": "index.js",

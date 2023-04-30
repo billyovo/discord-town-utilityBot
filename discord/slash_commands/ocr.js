@@ -25,6 +25,9 @@ module.exports = {
             return;
         }
         tesseract.recognize(url, config).then((text) => {
+            if (!text){
+                text = "I don't see anything!";
+            }
             interaction.editReply({ content: text });
             console.log(text);
         }).catch((error) => {

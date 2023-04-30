@@ -18,6 +18,14 @@
                         {
                             "name": "Japanese",
                             "value": "jpn"
+                        },
+                        {
+                            "name": "Traditional chinese",
+                            "value": "chi_tra"
+                        },
+                        {
+                            "name": "Simplified chinese",
+                            "value": "chi_sim"
                         }
                     ]
                 }

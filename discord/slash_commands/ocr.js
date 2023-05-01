@@ -17,7 +17,7 @@ module.exports = {
         
         try{
             const text = await tesseract.recognize(url, {lang: fromText, oem:1, psm: 3});
-            interaction.editReply({ content: text ?? "I don't see anything!"});
+            interaction.editReply({ content: text || "I don't see anything!"});
         }
         catch((error)=>{
             console.log(error.message);

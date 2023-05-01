@@ -2,21 +2,9 @@ const tesseract = require("node-tesseract-ocr");
 
 module.exports = {
     run: async function (bot, interaction) {
-        const url =
-            // interaction.optionts.get("image")?.attachment?.url ||
-            interaction.options.get("url")?.value;
-        let fromText = interaction.options.get("lang")?.value;
-        console.log(fromText);
-        if (!fromText) {
-            fromText = "eng";
-        }
         await interaction.deferReply();
-        console.log(url);
-        config = {
-            lang: fromText,
-            oem: 1,
-            psm: 3,
-        };
+        const url = interaction.options.get("url")?.value;
+        
         if (!url) {
             interaction.reply({
                 content: "Nothing is received!",
@@ -24,14 +12,16 @@ module.exports = {
             });
             return;
         }
-        tesseract.recognize(url, config).then((text) => {
-            if (!text){
-                text = "I don't see anything!";
-            }
-            interaction.editReply({ content: text });
-            console.log(text);
-        }).catch((error) => {
-            console.log(error.message)
-        });
+        
+        const fromText = interaction.options.get("lang")?.value ?? "eng";
+        
+        try{
+            const text = await tesseract.recognize(url, {lang: fromText, oem:1, psm: 3});
+            interaction.editReply({ content: text ?? "I don't see anything!"});
+        }
+        catch((error)=>{
+            console.log(error.message);
+            interaction.editReply({content: error.message});
+        })
     },
 };

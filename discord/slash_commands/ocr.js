@@ -15,13 +15,13 @@ module.exports = {
         
         const fromText = interaction.options.get("lang")?.value ?? "eng";
         
-        try{
+        try {
             const text = await tesseract.recognize(url, {lang: fromText, oem:1, psm: 3});
             interaction.editReply({ content: text || "I don't see anything!"});
-        }
-        catch((error)=>{
+        } catch (error) {
             console.log(error.message);
-            interaction.editReply({content: error.message});
-        })
+            interaction.editReply({content: error.message}); 
+        }
+
     },
 };

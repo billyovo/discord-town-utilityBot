@@ -63,15 +63,19 @@ const draw = async (prompt) => {
 
 
 const base2img = async (data, prompt) => {
-    const buffer = Buffer.from(data, 'base64');
-    let index = 0;
-    let filename = `./img/towndraw/${prompt}.png`;
-    while (fs.existsSync(filename)){
-        filename = `./img/towndraw/${prompt}${index}.png`;
-        index++;
+    try {
+        const buffer = Buffer.from(data, 'base64');
+        let index = 0;
+        let filename = `./img/towndraw/test.png`;
+        while (fs.existsSync(filename)){
+            filename = `./img/towndraw/test${index}.png`;
+            index++;
+        }
+        fs.writeFileSync(filename, buffer);
+        return filename;
+    } catch (error) {
+        console.log(error);
     }
-    fs.writeFileSync(filename, buffer);
-    return filename;
 };
 
 

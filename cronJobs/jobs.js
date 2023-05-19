@@ -26,5 +26,3 @@ const newLife = new CronJob('1 0 * * *', function() {
 	
 
   }, null, true, 'Asia/Taipei');
-
-newLife.start();

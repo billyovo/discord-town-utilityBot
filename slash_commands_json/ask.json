@@ -3,8 +3,8 @@
 	"description": "ask GPT",
 	"options": [
 		{
-			"name": "prmopt",
-			"description": "prmopt",
+			"name": "prompt",
+			"description": "prompt",
 			"type": 3,
 			"required": true
 		}

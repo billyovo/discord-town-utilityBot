@@ -20,9 +20,9 @@ module.exports = {
         await interaction.deferReply();
 
         axios.post(process.env.GPT_LINK, body, {headers: headers})
-        .then((response) => response.json())
-        .then((data) => {
-            interaction.editReply({content: data.choices[0].message.content});
+        .then((response) => {
+            console.log(response);
+            interaction.editReply({content: response.data.choices[0].message.content});
         }
         )
         .catch((error) => {

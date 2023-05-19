@@ -1,0 +1,36 @@
+{
+    "name": "ocr",
+    "description": "get the text from an image",
+    "options": [
+
+                {
+                    "type": 3,
+                    "name": "url",
+                    "description": "image file",
+                    "required": true
+                },
+                {
+                    "name": "lang",
+                    "description": "the language to use (default: eng)",
+                    "type": 3,
+                    "required": false,
+                    "choices":[
+                        {
+                            "name": "Japanese",
+                            "value": "jpn"
+                        },
+                        {
+                            "name": "Traditional chinese",
+                            "value": "chi_tra"
+                        },
+                        {
+                            "name": "Simplified chinese",
+                            "value": "chi_sim"
+                        }
+                    ]
+                }
+                
+    ]
+}
+
+

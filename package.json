@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node .",
-    "test": "jest"
+    "test": "jest",
+    "register": "node register.js"
   },
   "dependencies": {
     "axios": "^1.4.0",
@@ -12,6 +13,8 @@
     "cron": "^2.3.0",
     "discord.js": "^14.11.0",
     "luxon": "^3.3.0"
+    "node-tesseract-ocr": "^2.2.1",
+    "openai": "^3.2.1"
   },
   "description": "games and utility bot",
   "main": "index.js",

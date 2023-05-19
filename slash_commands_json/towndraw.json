@@ -1,0 +1,11 @@
+{
+  "name": "towndraw",
+  "description": "Lora from TownDraw",
+  "options": [
+    {
+      "type": 3,
+      "name": "prompt",
+      "description": "add \"deadfishdraw\" to make the draw like deadfish"
+    }
+  ]
+}

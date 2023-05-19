@@ -1,0 +1,12 @@
+{
+	"name": "ask",
+	"description": "ask GPT",
+	"options": [
+		{
+			"name": "prompt",
+			"description": "prompt",
+			"type": 3,
+			"required": true
+		}
+	]
+}

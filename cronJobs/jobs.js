@@ -60,7 +60,3 @@ const weather = new CronJob('0 8 * * *', async function() {
 
 
 }, null, true, 'Asia/Taipei');
-
-
-weather.start();
-newLife.start();

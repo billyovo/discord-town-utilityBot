@@ -27,9 +27,10 @@ module.exports = {
         client.post(process.env.GPT_LINK, body, {headers: headers})
         .then((response) => {
             if(response.status === 429){
-                interaction.editReply({content: `${response.data.message}`});
+                interaction.editReply({content: `${response.data.error.message}`});
                 return;
             }
+            console.log(response)
             const result = response.data.choices[0].message.content.match(/.{1,2000}/g) ?? [];
             interaction.editReply({content: result[0]});
             for(let i = 1;i<result.length;i++){

@@ -1,4 +1,9 @@
-const axios = require('axios').default;
+const axios = require('axios');
+const client = axios.create({
+    validateStatus: function (status) {
+        return status < 500; 
+    }
+})
 
 module.exports = {
 
@@ -19,15 +24,22 @@ module.exports = {
         }
         await interaction.deferReply();
 
-        axios.post(process.env.GPT_LINK, body, {headers: headers})
+        client.post(process.env.GPT_LINK, body, {headers: headers})
         .then((response) => {
-            console.log(response);
-            interaction.editReply({content: response.data.choices[0].message.content});
+            if(response.status === 429){
+                interaction.editReply({content: `${response.data.message}`});
+                return;
+            }
+            const result = response.data.choices[0].message.content.match(/.{1,2000}/g) ?? [];
+            interaction.editReply({content: result[0]});
+            for(let i = 1;i<result.length;i++){
+                interaction.channel.send({content: result[i]});
+            }
         }
         )
         .catch((error) => {
             console.log(error);
-            interaction.editReply({content:"Sorry, I couldn't get a response from the API\r\n"+error.message});
+            interaction.editReply({content: `${error.message}`});
             }
         );
     }

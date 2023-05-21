@@ -34,7 +34,9 @@ module.exports = {
             const result = response.data.choices[0].message.content.match(/.{1,2000}/g) ?? [];
             interaction.editReply({content: result[0]});
             for(let i = 1;i<result.length;i++){
-                interaction.channel.send({content: result[i]});
+                if (!result[i]){
+                    interaction.channel.send({content: result[i]});
+                }
             }
         }
         )

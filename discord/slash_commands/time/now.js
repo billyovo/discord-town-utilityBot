@@ -1,10 +1,10 @@
 const {DateTime} = require("luxon");
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
 
     run: function(bot, interaction){
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
 	        .setColor('#282C34')
 	        .setTitle('Current Time')
             

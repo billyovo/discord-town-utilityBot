@@ -1,5 +1,5 @@
 
-const {MessageEmbed, MessageAttachment} = require('discord.js')
+const {EmbedBuilder, MessageAttachment} = require('discord.js')
 const { createCanvas } = require('canvas')
 
 function hexToRgb(hex) {
@@ -25,7 +25,7 @@ module.exports = {
 
         const canvas = createCanvas(250, 250);
         const ctx = canvas.getContext("2d");
-        const embed = new MessageEmbed();
+        const embed = new EmbedBuilder();
         if(!colour.includes(",")){
             resolved = hexToRgb(colour);
             ctx.fillStyle = "rgb("+resolved+")";

@@ -5,6 +5,24 @@ const client = axios.create({
     }
 })
 
+function splitString(str, limit = 2000, delimiter = "\n"){    
+    if(str.length <= limit){
+        return [str];
+    }
+    const result = [];
+    const words = str.split(delimiter);
+    let currentString = "";
+    for(let i = 0;i<words.length;i++){
+        if(currentString.length + words[i].length < limit){
+            currentString += words[i] + delimiter;
+        }else{
+            result.push(currentString);
+            currentString = words[i] + delimiter;
+        }
+    }
+    result.push(currentString);
+    return result;
+}
 module.exports = {
 
     run: async function(bot, interaction){
@@ -30,14 +48,14 @@ module.exports = {
                 interaction.editReply({content: `${response.data.error.message}`});
                 return;
             }
-            console.log(response)
-            const result = response.data.choices[0].message.content.match(/.{1,2000}/g) ?? [];
-            interaction.editReply({content: result[0]});
-            for(let i = 1;i<result.length;i++){
-                if (!result[i]){
-                    interaction.channel.send({content: result[i]});
-                }
-            }
+            console.log(response.data)
+            const result = splitString(response.data.choices[0].message.content);
+            
+          interaction.editReply({content: `Q: ${prompt}\r\n\r\n`});
+          for(let i = 0;i<result.length;i++){
+            interaction.channel.send(result[i]);
+          }
+          
         }
         )
         .catch((error) => {

@@ -4,7 +4,7 @@ const client = axios.create({
         return status < 500; 
     }
 })
-
+let polling = null;
 module.exports = {
 
     run: async function(bot, interaction){
@@ -21,40 +21,62 @@ module.exports = {
         }
         await interaction.deferReply();
 
-        try{
+        
             
             const jobID = await client.post(`${process.env.DRAW_LINK}${process.env.DRAW_API_VERSION}`, body, {headers: headers});
-            if(jobID.status !== 200){
+            console.log(jobID)
+            if(jobID.status >= 300){
                 return await interaction.editReply({content: `${jobID.data.message}`});
             }
-            console.log(jobID.data)
+            
 
             
-            const polling = setInterval(async ()=>{
-                const url = await client.get(`${process.env.DRAW_LINK}/operations/${jobID.data.id}${process.env.DRAW_API_VERSION}`, {headers: headers});
-                console.log(url.data)
-                if(url.data.status === "Succeeded"){
-                    clearInterval(polling);
-                    await interaction.editReply({content: url.data.result.contentUrl});
-                }
-                if(url.response.status !== 200){
-                    throw new Error("Something is wrong when getting the job ID :(");
-                }
+            polling = setInterval(async ()=>{
+                try{
+                    const url = await client.get(`${process.env.DRAW_LINK}/operations/${jobID.data.id}${process.env.DRAW_API_VERSION}`, {headers: headers});
+                    if(url.status === 429){
+                        clearInterval(polling);
+                        throw new Error(url.data?.message ?? "Too many requests, please try again later");         
+                    }
+                    if(url.status >= 300){
+                        clearInterval(polling);
+                        throw new Error(url.data?.message ?? "Something went wrong, please try again later");
+                    }
+                    switch(url.data.status){
+                        case "Running":{
+                            await interaction.editReply({content: `Drawing your image...`});
+                            break;
+                        }
 
-                //get link as image buffer
-                const image = await client.get(url.data.result.contentUrl, {responseType: 'arraybuffer'});
+                        case "NotStarted":{
+                            await interaction.editReply({content: `Starting to draw your image...`});
+                            break;
+                        }
 
-                if(image.status !== 200){
-                    throw new Error("Something is wrong when getting the image :(");
+                        case "Failed":{
+                            throw new Error(url.data.error.message);
+                        }
+
+                        case "Succeeded":{
+                            const image = await client.get(url.data.result.contentUrl, {responseType: 'arraybuffer'});
+
+                            if(image.status >= 300){
+                                throw new Error("Something is wrong when getting the image :(");
+                            }
+                            await interaction.editReply({files: [image.data]}); 
+                            clearInterval(polling);
+                            break;
+                        }                       
+                        default:
+                            break;
+                    }
+                    
                 }
-                await interaction.editReply({files: [image.data]}); 
-                clearInterval(polling);
-            },2500)
+                catch(error){
+                    console.log(error);
+                    await interaction.editReply(error.message);
+                }
+            }, 5000)
                        
         }
-        catch(error){
-            console.log(error);
-            await interaction.editReply(error.message);
-        }
     }
-}

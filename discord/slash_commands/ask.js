@@ -82,7 +82,7 @@ module.exports = {
         const thread = await createThread(prompt, interaction);
         await thread.join();
 
-        storeHistory(thread, {role: "user", content: prompt});
+        storeHistory(thread, {role: "user", content: prompt, name: interaction.user.username});
         storeHistory(thread, {role: "assistant", content: result.message.join("\n")});
 
         const collectorFilter = (message) => {
@@ -95,7 +95,7 @@ module.exports = {
             for(let i = 0; i<result.message.length;i++){
                 message.channel.send({content: `${result.message[i]}`});
             }
-            storeHistory(message.channel, {role: "user", content: message.content});
+            storeHistory(message.channel, {role: "user", content: message.content, name: message.author.username});
             storeHistory(message.channel, {role: "assistant", content: result.message.join("\n")});
 
             console.log(history[message.channel.id]);

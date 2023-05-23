@@ -4,7 +4,6 @@ const client = axios.create({
         return status < 500; 
     }
 })
-let polling = null;
 module.exports = {
 
     run: async function(bot, interaction){
@@ -24,22 +23,20 @@ module.exports = {
         
             
             const jobID = await client.post(`${process.env.DRAW_LINK}${process.env.DRAW_API_VERSION}`, body, {headers: headers});
-            console.log(jobID)
+            console.log(jobID.data)
             if(jobID.status >= 300){
                 return await interaction.editReply({content: `${jobID.data.message}`});
             }
             
 
-            
-            polling = setInterval(async ()=>{
+        setTimeout(async ()=>{
+            const polling = setInterval(async ()=>{
                 try{
                     const url = await client.get(`${process.env.DRAW_LINK}/operations/${jobID.data.id}${process.env.DRAW_API_VERSION}`, {headers: headers});
                     if(url.status === 429){
-                        clearInterval(polling);
                         throw new Error(url.data?.message ?? "Too many requests, please try again later");         
                     }
                     if(url.status >= 300){
-                        clearInterval(polling);
                         throw new Error(url.data?.message ?? "Something went wrong, please try again later");
                     }
                     switch(url.data.status){
@@ -55,6 +52,7 @@ module.exports = {
 
                         case "Failed":{
                             throw new Error(url.data.error.message);
+                            
                         }
 
                         case "Succeeded":{
@@ -63,20 +61,19 @@ module.exports = {
                             if(image.status >= 300){
                                 throw new Error("Something is wrong when getting the image :(");
                             }
-                            await interaction.editReply({files: [image.data]}); 
+                            await interaction.editReply({files: [image.data], content: `${prompt}`}); 
                             clearInterval(polling);
                             break;
-                        }                       
-                        default:
-                            break;
+                        }  
                     }
                     
                 }
                 catch(error){
                     console.log(error);
+                    clearInterval(polling);
                     await interaction.editReply(error.message);
                 }
             }, 5000)
-                       
+        }, 5000)
         }
     }

@@ -7,6 +7,12 @@
 			"description": "prompt",
 			"type": 3,
 			"required": true
+		},
+		{
+			"name": "continue",
+			"description": "continue the chat or not",
+			"type": 5,
+			"required": false
 		}
 	]
 }

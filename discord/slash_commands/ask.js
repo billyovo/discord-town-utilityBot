@@ -56,7 +56,7 @@ async function getCompletion(prompt, history){
     if(response.status >= 400){
         return {
             success: false,
-            message: splitString(response.data.error.message)
+            message: splitString(response.data.error?.message ?? response.data.message)
         }
     }
     return {message: splitString(response.data.choices[0].message.content), success: true};

@@ -71,7 +71,7 @@ module.exports = {
         const shouldContinue = interaction.options.get("continue")?.value ?? false;
         await interaction.deferReply();
         
-        interaction.editReply({content: `Q: ${prompt}\r\n\r\n`});
+        interaction.editReply({content: `>>> ${prompt}`});
         
         const result = await getCompletion(prompt, history[interaction.channel.id] ?? []);
         if(!result.success){
@@ -105,14 +105,19 @@ module.exports = {
         const collector = thread.createMessageCollector({ filter: collectorFilter, time: 600000 });
 
         collector.on('collect', async (message) => {
+            storeHistory(message.channel, {role: "user", content: message.content, name: message.author.username});
             const result = await getCompletion(message.content, history[message.channel.id] ?? []);
             for(let i = 0; i<result.message.length;i++){
                 message.channel.send({content: `${result.message[i]}`});
             }
-            storeHistory(message.channel, {role: "user", content: message.content, name: message.author.username});
-            storeHistory(message.channel, {role: "assistant", content: result.message.join("\n")});
+            if(result.success){
+                storeHistory(message.channel, {role: "assistant", content: result.message.join("\n")});
+            }
+            
 
-            console.log(JSON.stringify(history[message.channel.id])+"\r\n\r\n");
+            console.log(history[message.channel.id]);
+            console.log("\r\n\r\n");
+
         });
 
         collector.on('end', async (collected, reason) => {

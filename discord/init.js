@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require('path');
 
 const {Client, GatewayIntentBits} = require('discord.js');
-const bot = new Client({ intents: [GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessages]});
+const bot = new Client({ intents: [GatewayIntentBits.Guilds,GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]});
 bot.login(process.env.TOKEN);
 
 bot.on('ready', async () => {

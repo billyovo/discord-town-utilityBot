@@ -74,13 +74,27 @@ module.exports = {
         interaction.editReply({content: `Q: ${prompt}\r\n\r\n`});
         
         const result = await getCompletion(prompt, history[interaction.channel.id] ?? []);
-        for(let i = 0;i<result.message.length;i++){
-            interaction.channel.send({content: `${result.message[i]}`});
+        if(!result.success){
+            for(let i = 0;i<result.message.length;i++){
+                interaction.channel.send({content: `${result.message[i]}`});
+            }
+            return;
         }
-        if(!result.success || !shouldContinue) return;
+
+        if(!shouldContinue) {
+            for(let i = 0; i<result.message.length;i++){
+                interaction.channel.send({content: `${result.message[i]}`});
+            }
+            return;
+        }
 
         const thread = await createThread(prompt, interaction);
-        await thread.join();
+        await thread.join();    
+        
+        for(let i = 0; i<result.message.length;i++){
+            thread.send({content: `${result.message[i]}`});
+        }
+
 
         storeHistory(thread, {role: "user", content: prompt, name: interaction.user.username});
         storeHistory(thread, {role: "assistant", content: result.message.join("\n")});
@@ -98,7 +112,7 @@ module.exports = {
             storeHistory(message.channel, {role: "user", content: message.content, name: message.author.username});
             storeHistory(message.channel, {role: "assistant", content: result.message.join("\n")});
 
-            console.log(history[message.channel.id]);
+            console.log(JSON.stringify(history[message.channel.id])+"\r\n\r\n");
         });
 
         collector.on('end', async (collected, reason) => {

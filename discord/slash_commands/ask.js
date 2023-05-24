@@ -15,12 +15,18 @@ async function createThread(prompt, interaction){
     return thread;
 }   
 
-async function storeHistory(thread, lastMessage){
+function storeHistory(thread, lastMessage){
     if(history[thread.id]){
         history[thread.id].push(lastMessage);
     }
     else{
         history[thread.id] = [lastMessage];
+    }
+}
+
+function popHistory(thread){
+    if(history[thread.id]){
+        history[thread.id].pop();
     }
 }
 function splitString(str, limit = 2000, delimiter = "\n"){    
@@ -112,6 +118,9 @@ module.exports = {
             }
             if(result.success){
                 storeHistory(message.channel, {role: "assistant", content: result.message.join("\n")});
+            }
+            else{
+                popHistory(message.channel);
             }
             
 

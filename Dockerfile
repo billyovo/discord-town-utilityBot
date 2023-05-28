@@ -1,14 +1,22 @@
-FROM amd64/node:lts-buster-slim
+FROM node:lts-alpine
+ENV NODE_ENV=production
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN apk add --no-cache \
+    build-base \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    giflib-dev \
+    libjpeg-turbo-dev \
+    && rm -rf /var/cache/apk/*
 
-COPY package.json .
+WORKDIR /app
+
+COPY . .
+RUN npm install -g pnpm
+
+RUN pnpm install
 
 
-RUN npm install
 
-
-COPY ./ .
-
-CMD ["node","index.js"]
+CMD ["pnpm", "start"]

@@ -33,8 +33,8 @@
 							"value": "UTC+8"
 						},
 						{
-							"name": "ACST",
-							"value": "Australia/Adelaide"
+							"name": "AEST",
+							"value": "Australia/Queensland"
 						}
 					]
 				},
@@ -53,8 +53,8 @@
 							"value": "UTC+8"
 						},
 						{
-							"name": "ACST",
-							"value": "Australia/Adelaide"
+							"name": "AEST",
+							"value": "Australia/Queensland"
 						}
 					]
 				}

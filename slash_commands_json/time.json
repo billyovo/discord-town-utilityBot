@@ -2,63 +2,63 @@
 	"name": "time",
 	"description": "global time related functions",
 	"options": [
-		{
-			"name": "now",
-			"description": "get the current time",
-			"type": 1
-		},
-		{
-			"name": "convert",
-			"description": "convert a time to another timezone",
-			"type": 1,
-			"options": [
-				{
-					"name": "time",
-					"description": "time to be converted, etc: 28/04 18:30 or 18:30",
-					"type": 3,
-					"required": true
-				},
-				{
-					"name": "from_timezone",
-					"description": "Which time zone to convert from, etc: PST ACST or UTC+8",
-					"type": 3,
-					"required": true,
-					"choices": [
-						{
-							"name": "PST",
-							"value": "PST"
-						},
-						{
-							"name": "HKT",
-							"value": "UTC+8"
-						},
-						{
-							"name": "ACST",
-							"value": "Australia/Adelaide"
-						}
-					]
-				},
-				{
-					"name": "to_timezone",
-					"description": "Which time zone to convert to",
-					"type": 3,
-					"required": true,
-					"choices": [
-						{
-							"name": "PST",
-							"value": "PST"
-						},
-						{
-							"name": "HKT",
-							"value": "UTC+8"
-						},
-						{
-							"name": "ACST",
-							"value": "Australia/Adelaide"
-						}
-					]
-				}
+	  {
+		"name": "now",
+		"description": "get the current time",
+		"type": 1
+	  },
+	  {
+		"name": "convert",
+		"description": "convert a time to another timezone",
+		"type": 1,
+		"options": [
+		  {
+			"name": "time",
+			"description": "time to be converted, etc: 28/04 18:30 or 18:30",
+			"type": 3,
+			"required": true
+		  },
+		  {
+			"name": "from_timezone",
+			"description": "Which time zone to convert from, etc: PST ACST or UTC+8",
+			"type": 3,
+			"required": true,
+			"choices": [
+			  {
+				"name": "PST",
+				"value": "PST"
+			  },
+			  {
+				"name": "HKT",
+				"value": "UTC+8"
+			  },
+			  {
+				"name": "AEST",
+				"value": "Australia/Queensland"
+			  }
 			]
-		}
+		  },
+		  {
+			"name": "to_timezone",
+			"description": "Which time zone to convert to",
+			"type": 3,
+			"required": true,
+			"choices": [
+			  {
+				"name": "PST",
+				"value": "PST"
+			  },
+			  {
+				"name": "HKT",
+				"value": "UTC+8"
+			  },
+			  {
+				"name": "AEST",
+				"value": "Australia/Queensland"
+			  }
+			]
+		  }
+		]
+	  }
 	]
-}
+  }

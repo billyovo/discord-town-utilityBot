@@ -1,6 +1,7 @@
 
 const {EmbedBuilder, MessageAttachment} = require('discord.js')
-const { createCanvas } = require('canvas')
+const { createCanvas } = require('canvas');
+const { AttachmentBuilder } = require('discord.js');
 
 function hexToRgb(hex) {
     var bigint = parseInt(hex, 16);
@@ -64,7 +65,7 @@ module.exports = {
         embed.setTitle('Colour Converter')
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        const attachment = new MessageAttachment(canvas.toBuffer(), "output.png");
+        const attachment = new AttachmentBuilder(canvas.toBuffer(), "output.png");
         embed.setImage("attachment://output.png");
 	    interaction.reply({ embeds: [embed] , files: [attachment]});
     

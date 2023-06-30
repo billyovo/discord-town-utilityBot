@@ -8,7 +8,7 @@ module.exports = {
 	        .setColor('#282C34')
 	        .setTitle('Current Time')
             
-            const zones = ['Asia/Taipei', 'Canada/Pacific', 'Australia/Broken_Hill'];
+            const zones = ['Asia/Taipei', 'Canada/Pacific', 'Australia/Queensland'];
             const names = ['Hong Kong', 'Canada', 'Australia'];
             const all_dt = zones.map((element)=>{
                 return DateTime.now().setZone(element);

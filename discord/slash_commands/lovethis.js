@@ -1,4 +1,4 @@
-const {MessageAttachment} = require('discord.js')
+const {AttachmentBuilder} = require('discord.js')
 const path = require('path');
 const { createCanvas, loadImage } = require('canvas')
 
@@ -22,11 +22,12 @@ module.exports = {
             ctx.drawImage(image, 0, 0, image.width, image.height, 313, 79, 339, 263);
             ctx.drawImage(base,0, 0);
 
-            const attachment = new MessageAttachment(canvas.toBuffer(), "output.png");
+            const attachment = new AttachmentBuilder(canvas.toBuffer(), {name: "output.png"});
             interaction.editReply({files: [attachment]});
         }
         catch(error){
             interaction.editReply({content: "an error occured!"});
+            console.log(error);
         }
        
     }

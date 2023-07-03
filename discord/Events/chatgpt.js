@@ -24,11 +24,39 @@ const runCompletion = async (content) => {
     }
 };
 
-const sendMessage = (message, content) => {
-    message.channel.send({
-        content: content,
-        reply: { messageReference: message.id },
-    });
+const sendMessage = async (message, content) => {
+    console.log(content.length);
+    const limit = 2000;
+    if(content.length <= limit){
+        message.channel.send({
+            content: content,
+            reply: { messageReference: message.id },
+        });
+    }else{
+        console.log("start");
+        const delimiter = "\n";
+        const result = [];
+        const words = content.split(delimiter);
+        let currentString = "";
+        for(let i = 0; i<words.length; i++){
+            if(currentString.length + words[i].length < limit){
+                currentString += words[i] + delimiter;
+            }else{
+                result.push(currentString);
+                currentString = words[i] + delimiter;
+            }
+        }
+        result.push(currentString);
+        let messageID = message.id;
+        for(let i = 0; i<result.length; i++){
+            console.log(messageID);
+            const sent = await message.channel.send({
+                content: result[i],
+                reply: { messageReference: messageID },
+            });
+            messageID = sent.id;
+        }
+    }
 };
 
 module.exports = {

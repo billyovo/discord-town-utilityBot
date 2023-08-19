@@ -8,3 +8,7 @@ docker-compose*
 .git
 .gitignore
 .vscode
+.env
+slash_commands_json
+img
+test

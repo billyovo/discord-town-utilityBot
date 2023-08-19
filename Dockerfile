@@ -1,22 +1,12 @@
-FROM node:lts-alpine
+FROM node:18
 ENV NODE_ENV=production
 
-RUN apk add --no-cache \
-    build-base \
-    cairo-dev \
-    jpeg-dev \
-    pango-dev \
-    giflib-dev \
-    libjpeg-turbo-dev \
-    && rm -rf /var/cache/apk/*
+COPY ["package.json", "package-lock.json*", "./"]
 
-WORKDIR /app
+RUN apt-get update && apt-get install -y bash curl && curl -1sLf \
+'https://dl.cloudsmith.io/public/infisical/infisical-cli/setup.deb.sh' | bash \
+&& apt-get update && apt-get install -y infisical
 
+RUN npm install
 COPY . .
-RUN npm install -g pnpm
-
-RUN pnpm install
-
-
-
-CMD ["pnpm", "start"]
+CMD ["infisical", "run", "--env=prod", "--","npm", "start"]
